@@ -22,3 +22,11 @@ Register_map_with_their_binary_values = { "x0": "00000", "x1": "00001", "x2": "0
     "x20": "10100", "x21": "10101", "x22": "10110", "x23": "10111", "x24": "11000", 
     "x25": "11001", "x26": "11010", "x27": "11011", "x28": "11100", "x29": "11101", 
     "x30": "11110", "x31": "11111"  }
+
+#  Making a list of all the given instructions in the input file 
+with open(input_file,"r") as Input_file_taken:
+    List_of_lines_of_input_file=Input_file_taken.readlines()
+
+# for i in List_of_lines_of_input_file:
+#     if !(i=="") :
+#         print(i,end="")
