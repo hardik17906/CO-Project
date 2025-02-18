@@ -23,10 +23,190 @@ Register_map_with_their_binary_values = { "x0": "00000", "x1": "00001", "x2": "0
     "x25": "11001", "x26": "11010", "x27": "11011", "x28": "11100", "x29": "11101", 
     "x30": "11110", "x31": "11111"  }
 
+# #  Making dictionary for Diferrent types of instructions of R types
+
+# #  Mkaing dictionary for opcodes of different opeartions 
+# Operations_map_with_their_opcode={"add":"00000"}
+
 #  Making a list of all the given instructions in the input file 
+
 with open(input_file,"r") as Input_file_taken:
     List_of_lines_of_input_file=Input_file_taken.readlines()
 
-# for i in List_of_lines_of_input_file:
-#     if !(i=="") :
-#         print(i,end="")
+with open(output_file,"w") as Output_file_taken:
+
+    for i in range(len(List_of_lines_of_input_file)):
+        if List_of_lines_of_input_file[i].strip()=="" :
+            continue
+        # print(List_of_lines_of_input_file[i],end="")
+
+        List_after_space_separated=(List_of_lines_of_input_file[i].strip()).split(" ")
+        List_after_comma_separated=List_after_space_separated[1].split(",")
+        List_after_comma_separated=[i.strip() for i in List_after_comma_separated]
+        # print(List_after_space_separated)
+        # print(List_after_comma_separated)
+#  for R -TYPE INSTRUCTIONS
+        if List_after_space_separated[0]=="add":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_add="0110011"
+            funct7_for_add="0000000"
+            funct3_for_add="000"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+
+
+        elif List_after_space_separated[0]=="sub":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_sub="0110011"
+            funct7_for_sub="0100000"
+            funct3_for_sub="000"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_sub}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sub}{Register_map_with_their_binary_values[rd]}{opcode_for_sub}\n")
+
+
+        elif List_after_space_separated[0]=="and":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_and="0110011"
+            funct7_for_and="0000000"
+            funct3_for_and="111"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_and}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_and}{Register_map_with_their_binary_values[rd]}{opcode_for_and}\n")
+
+
+        elif List_after_space_separated[0]=="or":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_or="0110011"
+            funct7_for_or="0000000"
+            funct3_for_or="110"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_or}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_or}{Register_map_with_their_binary_values[rd]}{opcode_for_or}\n")
+
+
+        elif List_after_space_separated[0]=="xor":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_xor="0110011"
+            funct7_for_xor="0000000"
+            funct3_for_xor="100"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_xor}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_xor}{Register_map_with_their_binary_values[rd]}{opcode_for_xor}\n")
+
+
+        elif List_after_space_separated[0]=="sll":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_sll="0110011"
+            funct7_for_sll="0000000"
+            funct3_for_sll="001"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_sll}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sll}{Register_map_with_their_binary_values[rd]}{opcode_for_sll}\n")
+
+
+        elif List_after_space_separated[0]=="srl":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_srl="0110011"
+            funct7_for_srl="0000000"
+            funct3_for_srl="101"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_srl}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_srl}{Register_map_with_their_binary_values[rd]}{opcode_for_srl}\n")
+
+
+        elif List_after_space_separated[0]=="sra":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_sra="0110011"
+            funct7_for_sra="0100000"
+            funct3_for_sra="101"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_sra}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sra}{Register_map_with_their_binary_values[rd]}{opcode_for_sra}\n")
+
+        elif List_after_space_separated[0]=="slt":
+            if len(List_after_comma_separated)!=3 :
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                break
+            rd=List_after_comma_separated[0]
+            rx1=List_after_comma_separated[1]
+            rx2=List_after_comma_separated[2]
+            opcode_for_slt="0110011"
+            funct7_for_slt="0000000"
+            funct3_for_slt="010"
+            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+            Output_file_taken.write(f"{funct7_for_slt}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_slt}{Register_map_with_their_binary_values[rd]}{opcode_for_slt}\n")
+
+
+        elif List_after_space_separated[0]=="div":
+                    if len(List_after_comma_separated)!=3 :
+                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                        break
+                    rd=List_after_comma_separated[0]
+                    rx1=List_after_comma_separated[1]
+                    rx2=List_after_comma_separated[2]
+                    opcode_for_div="0110011"
+                    funct7_for_div="0000001"
+                    funct3_for_div="100"
+                    # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+                    Output_file_taken.write(f"{funct7_for_div}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_div}{Register_map_with_their_binary_values[rd]}{opcode_for_div}\n")
+
+        elif List_after_space_separated[0]=="mul":
+                    if len(List_after_comma_separated)!=3 :
+                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                        break
+                    rd=List_after_comma_separated[0]
+                    rx1=List_after_comma_separated[1]
+                    rx2=List_after_comma_separated[2]
+                    opcode_for_mul="0110011"
+                    funct7_for_mul="0000001"
+                    funct3_for_mul="000"
+                    # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+                    Output_file_taken.write(f"{funct7_for_mul}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_mul}{Register_map_with_their_binary_values[rd]}{opcode_for_mul}\n")
+
+
+        elif List_after_space_separated[0]=="sltu":
+                    if len(List_after_comma_separated)!=3 :
+                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                        break
+                    rd=List_after_comma_separated[0]
+                    rx1=List_after_comma_separated[1]
+                    rx2=List_after_comma_separated[2]
+                    opcode_for_sltu="0110011"
+                    funct7_for_sltu="0000000"
+                    funct3_for_sltu="011"
+                    # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+                    Output_file_taken.write(f"{funct7_for_sltu}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sltu}{Register_map_with_their_binary_values[rd]}{opcode_for_sltu}\n")
