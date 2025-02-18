@@ -23,10 +23,6 @@ Register_map_with_their_binary_values = { "x0": "00000", "x1": "00001", "x2": "0
     "x25": "11001", "x26": "11010", "x27": "11011", "x28": "11100", "x29": "11101", 
     "x30": "11110", "x31": "11111"  }
 
-# #  Making dictionary for Diferrent types of instructions of R types
-
-# #  Mkaing dictionary for opcodes of different opeartions 
-# Operations_map_with_their_opcode={"add":"00000"}
 
 #  Making a list of all the given instructions in the input file 
 
