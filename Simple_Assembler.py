@@ -386,3 +386,10 @@ with open(output_file,"w") as Output_file_taken:
                     opcode_for_blt="1100011" 
                     funct3_for_blt="100" 
                     Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_blt}{imm_in_binary[8:]}{imm_in_binary[1]}{opcode_for_blt}\n")
+# FOR J -TYPE INSTRUCTIONS
+        elif List_after_space_separated[0]=="jal":
+                    if len(List_after_comma_separated)!=2 :
+                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+                        break
+                    rd= List_after_comma_separated[0]
+                    
