@@ -345,19 +345,6 @@ with open(output_file,"w") as Output_file_taken:
 
 
 
-        elif List_after_space_separated[0]=="blt":
-                    
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rx1=List_after_comma_separated[0]
-                    rx2=List_after_comma_separated[1]
-                    immi=int(List_after_comma_separated[2]) 
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
-                    opcode_for_blt="1100011" 
-                    funct3_for_blt="100" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_blt}{imm_in_binary[8:]}{imm_in_binary[1]}{opcode_for_blt}\n")
-
 # FOR J -TYPE INSTRUCTIONS 
         
         elif List_after_space_separated[0]=="jal":
