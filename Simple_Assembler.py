@@ -17,7 +17,7 @@ def converter_to_20bit_binary(n):
         return format(n, '020b')
 
 if len(sys.argv) !=3:
-    print("The Format of the input should be : python <File_name>.py <input_file_name> <output_file_name> ")
+    print("The Format of the input should be : python <File_name>.py <input.txt> <output.bin> ")
     sys.exit( 1 )  # To exit out of the this sys
 
 input_file=sys.argv[1]   # loading name of input txt file in input_file
@@ -78,8 +78,10 @@ for i in range(len(List_of_lines_of_input_file)):
 if stop==1:
       sys.exit(1)
 with open(output_file,"w") as Output_file_taken:
+    Done=0
 
     for i in range(len(List_of_lines_of_input_file)):
+
         if List_of_lines_of_input_file[i].strip()=="" :
             continue
         # print(List_of_lines_of_input_file[i],end="")
@@ -297,11 +299,11 @@ with open(output_file,"w") as Output_file_taken:
                     funct7_for_sltu="0000000"
                     funct3_for_sltu="011"
                     # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
-                    Output_file_taken.write(f"{funct7_for_sltu}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sltu}{Register_map_with_their_binary_values[rd]}{opcode_for_sltu}\n"))
+                    Output_file_taken.write(f"{funct7_for_sltu}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sltu}{Register_map_with_their_binary_values[rd]}{opcode_for_sltu}\n")
+       
 
 
 # FOR I -TYPE INSTRUCTIONS
-        
         elif List_after_space_separated[0]=="addi":
                     if len(List_after_comma_separated)!=3 :
                         print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
@@ -324,7 +326,7 @@ with open(output_file,"w") as Output_file_taken:
                               break
                     opcode_for_addi="0010011"
                     funct3_for_addi="000"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))#converting the immidiate into 12 bit binary string
+                    imm_in_binary=str(converter_to_12bit_binary(immi))
                     Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_addi}{Register_map_with_their_binary_values[rd]}{opcode_for_addi}\n")
 
 
@@ -462,6 +464,7 @@ with open(output_file,"w") as Output_file_taken:
                         break
                     rd=List_after_comma_separated[0]
                     immi,rx1=List_after_comma_separated[1].split("(")
+                    rx1=rx1.strip(")")
                     if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
                         print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
                         break
@@ -475,7 +478,6 @@ with open(output_file,"w") as Output_file_taken:
                         else :
                               print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
                               break
-                    rx1=rx1.strip(")")
                     opcode_for_lw="0000011"
                     funct3_for_lw="010"  
                     imm_in_binary=str(converter_to_12bit_binary(immi))
@@ -509,14 +511,14 @@ with open(output_file,"w") as Output_file_taken:
         
 # FOR S -TYPE INSTRUCTIONS
 
-
         elif List_after_space_separated[0]=="sw":
                     if len(List_after_comma_separated)!=2 :
                         print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
                         break
                     rx2=List_after_comma_separated[0]
                     immi,rx1=List_after_comma_separated[1].split("(")
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+                    rx1=rx1.strip(")")
+                    if (rx2 not in Register_map_with_their_binary_values) or (rx1 not in Register_map_with_their_binary_values) :
                         print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
                         break
                     if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
@@ -529,7 +531,6 @@ with open(output_file,"w") as Output_file_taken:
                         else :
                               print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
                               break
-                    rx1=rx1.strip(")")
                     opcode_for_sw="0100011"
                     funct3_for_sw="010"  
                     imm_in_binary=str(converter_to_12bit_binary(immi))
@@ -542,7 +543,8 @@ with open(output_file,"w") as Output_file_taken:
                         break
                     rx2=List_after_comma_separated[0]
                     immi,rx1=List_after_comma_separated[1].split("(")
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+                    rx1=rx1.strip(")")
+                    if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
                         print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
                         break
                     if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
@@ -555,7 +557,6 @@ with open(output_file,"w") as Output_file_taken:
                         else :
                               print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
                               break
-                    rx1=rx1.strip(")")
                     opcode_for_sh="0100011" 
                     funct3_for_sh="001"  
                     imm_in_binary=str(converter_to_12bit_binary(immi))
@@ -564,9 +565,7 @@ with open(output_file,"w") as Output_file_taken:
 
 
 
-
 # FOR B -TYPE INSTRUCTIONS
-
         
 
         elif List_after_space_separated[0]=="beq":
@@ -696,11 +695,7 @@ with open(output_file,"w") as Output_file_taken:
                     funct3_for_bltu="110" 
                     Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bltu}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_bltu}\n")
 
-
-
-
 # FOR J -TYPE INSTRUCTIONS 
-        
         elif List_after_space_separated[0]=="jal":
                     if len(List_after_comma_separated)!=2 :
                         print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
@@ -725,9 +720,18 @@ with open(output_file,"w") as Output_file_taken:
                     opcode_for_jal="1101111" 
                     Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[9:19]}{imm_in_binary[8]}{imm_in_binary[1:9]}{Register_map_with_their_binary_values[rd]}{opcode_for_jal}\n")
 
-
 #  NOT A VALID INSTRUCTION
 
         else:
               print(f"There is an Error in the line number {i+1} --> {List_of_lines_of_input_file[i]}\nGiven operation '{List_after_space_separated[0]}' is not a valid operation.")
               break
+        
+        if i==len(List_of_lines_of_input_file)-1:
+              Done=1
+
+
+
+if Done ==1 :
+      print(f"Encoding For all the given instructions have been done and has been written to {output_file}.\nThanks BYE !")
+      
+      
