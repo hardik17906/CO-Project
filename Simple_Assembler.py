@@ -390,3 +390,7 @@ elif List_after_space_separated[0]=="jal":
 {List_of_lines_of_input_file[i]}")
                         break
                     rd= List_after_comma_separated[0]
+imm_in_binary=str(converter_to_20bit_binary(int(List_after_comma_separated[1])))
+                    print(imm_in_binary)
+                    opcode_for_jal="1101111" 
+                    Output_file_taken.write(f"{imm_in_binary[0]}
