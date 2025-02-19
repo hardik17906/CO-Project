@@ -387,3 +387,6 @@ with open(output_file,"w") as Output_file_taken:
 elif List_after_space_separated[0]=="jal":
                     if len(List_after_comma_separated)!=2 :
                         print(f"Error in line number {i+1} : 
+{List_of_lines_of_input_file[i]}")
+                        break
+                    rd= List_after_comma_separated[0]
