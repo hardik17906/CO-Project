@@ -301,7 +301,7 @@ with open(output_file,"w") as Output_file_taken:
 
 
 # FOR I -TYPE INSTRUCTIONS
-        #Made by
+        
         elif List_after_space_separated[0]=="addi":
                     if len(List_after_comma_separated)!=3 :
                         print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
