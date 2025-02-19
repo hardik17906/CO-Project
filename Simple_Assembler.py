@@ -723,3 +723,10 @@ with open(output_file,"w") as Output_file_taken:
                     # print(imm_in_binary)
                     opcode_for_jal="1101111" 
                     Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[9:19]}{imm_in_binary[8]}{imm_in_binary[1:9]}{Register_map_with_their_binary_values[rd]}{opcode_for_jal}\n")
+
+
+#  NOT A VALID INSTRUCTION
+
+        else:
+              print(f"There is an Error in the line number {i+1} --> {List_of_lines_of_input_file[i]}\nGiven operation '{List_after_space_separated[0]}' is not a valid operation.")
+              break
