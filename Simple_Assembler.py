@@ -1,46 +1,102 @@
-// We are making a Simple Assembler
-// This will be a 32-bit Assembler
-// We will use RISC-V
 # We are making a Assembler 
 # This will be 32-bit Assembler
 # We made this using RISC V ISA
 
 import sys   # importing sys for taking input file and name of output file as arguments from stdin
 
+def converter_to_12bit_binary(n):
+    if n<0:
+        return format((1<<12) + n, '012b')
+    else:
+        return format(n,'012b')
+
+def converter_to_20bit_binary(n):
+    if n<0:
+        return format((1<<20) + n, '020b')
+    else:
+        return format(n, '020b')
+
 if len(sys.argv) !=3:
     print("The Format of the input should be : python <File_name>.py <input.txt> <output.bin> ")
     sys.exit( 1 )  # To exit out of the this sys
 
 input_file=sys.argv[1]   # loading name of input txt file in input_file
-output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
+output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
+
+
 # Making a Dictionary having Keys as the name of the register and Values as their binary conversion
-Register_map_with_their_binary_values= {"x0":"00000" }
-Register_map_with_their_binary_values = { "x0": "00000", "x1": "00001", "x2": "00010", "x3": "00011", "x4": "00100", 
-    "x5": "00101", "x6": "00110", "x7": "00111", "x8": "01000", "x9": "01001", 
-    "x10": "01010", "x11": "01011", "x12": "01100", "x13": "01101", "x14": "01110", 
-    "x15": "01111", "x16": "10000", "x17": "10001", "x18": "10010", "x19": "10011", 
-    "x20": "10100", "x21": "10101", "x22": "10110", "x23": "10111", "x24": "11000", 
-    "x25": "11001", "x26": "11010", "x27": "11011", "x28": "11100", "x29": "11101", 
-    "x30": "11110", "x31": "11111"  }
+Register_map_with_their_binary_values = { "zero":"00000" ,
+    "x0": "00000", "x1": "00001", "ra": "00001", "x2": "00010", "sp": "00010", 
+    "x3": "00011", "gp": "00011", "x4": "00100", "tp": "00100", "x5": "00101", 
+    "t0": "00101", "x6": "00110", "t1": "00110", "x7": "00111", "t2": "00111", 
+    "x8": "01000", "s0": "01000", "x9": "01001", "s1": "01001", "x10": "01010", 
+    "a0": "01010", "x11": "01011", "a1": "01011", "x12": "01100", "a2": "01100", 
+    "x13": "01101", "a3": "01101", "x14": "01110", "a4": "01110", "x15": "01111", 
+    "a5": "01111", "x16": "10000", "a6": "10000", "x17": "10001", "a7": "10001", 
+    "x18": "10010", "s2": "10010", "x19": "10011", "s3": "10011", "x20": "10100", 
+    "s4": "10100", "x21": "10101", "s5": "10101", "x22": "10110", "s6": "10110", 
+    "x23": "10111", "s7": "10111", "x24": "11000", "s8": "11000", "x25": "11001", 
+    "s9": "11001", "x26": "11010", "s10": "11010", "x27": "11011", "s11": "11011", 
+    "x28": "11100", "t3": "11100", "x29": "11101", "t4": "11101", "x30": "11110", 
+    "t5": "11110", "x31": "11111", "t6": "11111"
+}
 
-
+dictionary_fro_line_number_of_label={}
 #  Making a list of all the given instructions in the input file 
-
 with open(input_file,"r") as Input_file_taken:
     List_of_lines_of_input_file=Input_file_taken.readlines()
 
+Temp_for_virtual_error_checker=List_of_lines_of_input_file[-1].split(":")
+# print(Temp_for_virtual_error_checker)
+if len(Temp_for_virtual_error_checker)==2:
+    if f"beq zero,zero,{Temp_for_virtual_error_checker[0].strip()}" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,0" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,-0" not in Temp_for_virtual_error_checker[1].strip() :
+        print("ERROR : Virtual Hault Instruction missing ")
+        sys.exit(1)
+elif len(Temp_for_virtual_error_checker)==1:
+    if "beq zero,zero,0" not in Temp_for_virtual_error_checker[0].strip() and "beq zero,zero,-0" not in Temp_for_virtual_error_checker[0].strip():
+        print("ERROR : Virtual Hault Instruction missing ")
+        sys.exit(1)
+            
+        
+# if "beq zero,zero" not in List_of_lines_of_input_file[-1].strip()  :
+#       print("ERROR : Virtual Hault Instruction missing ")
+#       sys.exit(1)
+stop=0
+for i in range(len(List_of_lines_of_input_file)):
+        if List_of_lines_of_input_file[i].strip()=="" :
+            continue     
+        List_after_colon_separated=List_of_lines_of_input_file[i].split(":")
+        if len(List_after_colon_separated)==2 :
+              if List_after_colon_separated[0] in dictionary_fro_line_number_of_label:
+                    print(f"There is a labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}\nThe label '{List_after_colon_separated[0]}' was also present in the line number {dictionary_fro_line_number_of_label[List_after_colon_separated[0]]+1} --> {List_of_lines_of_input_file[dictionary_fro_line_number_of_label[List_after_colon_separated[0]]]}")
+                    stop=1
+                    break
+              else :
+                  dictionary_fro_line_number_of_label[List_after_colon_separated[0].strip()]=i
+# print(dictionary_fro_line_number_of_label)
+
+if stop==1:
+      sys.exit(1)
 with open(output_file,"w") as Output_file_taken:
 
     for i in range(len(List_of_lines_of_input_file)):
         if List_of_lines_of_input_file[i].strip()=="" :
             continue
         # print(List_of_lines_of_input_file[i],end="")
-
-        List_after_space_separated=(List_of_lines_of_input_file[i].strip()).split(" ")
+        
+        
+        List_after_colon_separated=List_of_lines_of_input_file[i].split(":")
+        # print(List_after_colon_separated)
+        # continue
+        List_after_colon_separated_for_further=List_after_colon_separated[len(List_after_colon_separated)-1].strip(" ")
+        # print(List_after_colon_separated_for_further)
+        List_after_space_separated=(List_after_colon_separated_for_further.strip()).split(" ")
         List_after_comma_separated=List_after_space_separated[1].split(",")
         List_after_comma_separated=[i.strip() for i in List_after_comma_separated]
         # print(List_after_space_separated)
         # print(List_after_comma_separated)
+        
+
 #  for R -TYPE INSTRUCTIONS
         if List_after_space_separated[0]=="add":
             if len(List_after_comma_separated)!=3 :
@@ -49,6 +105,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_add="0110011"
             funct7_for_add="0000000"
             funct3_for_add="000"
@@ -63,6 +122,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_sub="0110011"
             funct7_for_sub="0100000"
             funct3_for_sub="000"
@@ -77,6 +139,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_and="0110011"
             funct7_for_and="0000000"
             funct3_for_and="111"
@@ -91,6 +156,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_or="0110011"
             funct7_for_or="0000000"
             funct3_for_or="110"
@@ -105,6 +173,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_xor="0110011"
             funct7_for_xor="0000000"
             funct3_for_xor="100"
@@ -119,6 +190,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_sll="0110011"
             funct7_for_sll="0000000"
             funct3_for_sll="001"
@@ -133,6 +207,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_srl="0110011"
             funct7_for_srl="0000000"
             funct3_for_srl="101"
@@ -147,6 +224,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_sra="0110011"
             funct7_for_sra="0100000"
             funct3_for_sra="101"
@@ -160,6 +240,9 @@ with open(output_file,"w") as Output_file_taken:
             rd=List_after_comma_separated[0]
             rx1=List_after_comma_separated[1]
             rx2=List_after_comma_separated[2]
+            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                  break
             opcode_for_slt="0110011"
             funct7_for_slt="0000000"
             funct3_for_slt="010"
@@ -174,6 +257,9 @@ with open(output_file,"w") as Output_file_taken:
                     rd=List_after_comma_separated[0]
                     rx1=List_after_comma_separated[1]
                     rx2=List_after_comma_separated[2]
+                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                        break
                     opcode_for_div="0110011"
                     funct7_for_div="0000001"
                     funct3_for_div="100"
@@ -187,6 +273,9 @@ with open(output_file,"w") as Output_file_taken:
                     rd=List_after_comma_separated[0]
                     rx1=List_after_comma_separated[1]
                     rx2=List_after_comma_separated[2]
+                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                        break
                     opcode_for_mul="0110011"
                     funct7_for_mul="0000001"
                     funct3_for_mul="000"
@@ -201,11 +290,14 @@ with open(output_file,"w") as Output_file_taken:
                     rd=List_after_comma_separated[0]
                     rx1=List_after_comma_separated[1]
                     rx2=List_after_comma_separated[2]
+                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+                        break
                     opcode_for_sltu="0110011"
                     funct7_for_sltu="0000000"
                     funct3_for_sltu="011"
                     # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
-                    Output_file_taken.write(f"{funct7_for_sltu}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sltu}{Register_map_with_their_binary_values[rd]}{opcode_for_sltu}\n")
+                    Output_file_taken.write(f"{funct7_for_sltu}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sltu}{Register_map_with_their_binary_values[rd]}{opcode_for_sltu}\n"))
 
 
 # FOR I -TYPE INSTRUCTIONS
