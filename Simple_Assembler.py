@@ -324,7 +324,7 @@ with open(output_file,"w") as Output_file_taken:
                               break
                     opcode_for_addi="0010011"
                     funct3_for_addi="000"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
+                    imm_in_binary=str(converter_to_12bit_binary(immi))#converting the immidiate into 12 bit binary string
                     Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_addi}{Register_map_with_their_binary_values[rd]}{opcode_for_addi}\n")
 
 
