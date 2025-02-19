@@ -17,7 +17,7 @@ def converter_to_20bit_binary(n):
         return format(n, '020b')
 
 if len(sys.argv) !=3:
-    print("The Format of the input should be : python <File_name>.py <input.txt> <output.bin> ")
+    print("The Format of the input should be : python <File_name>.py <input_file_name> <output_file_name> ")
     sys.exit( 1 )  # To exit out of the this sys
 
 input_file=sys.argv[1]   # loading name of input txt file in input_file
