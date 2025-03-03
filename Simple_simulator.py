@@ -63,7 +63,49 @@ Dict_for_same_registers = {
 dictionary_for_opcode_for_operations = {"0110011":"R-TYPE","0010011":"I-TYPE","0100011":"S-TYPE","1100011":"B-TYPE","1101111":"J-TYPE"}
 
 
-dictionary_for_funct_3_for_operations={"R-TYPE":{"000":"ADD_SUB_MUL","111":"AND","110":"OR","100":"XOR","001":"SLL","101":"SRL","010":"SLT","100":"DIV","011":"SLTU"}}
+dictionary_for_funct_3_for_operations={
+    "R-TYPE":{
+        "000":"ADD_SUB_MUL",
+        "111":"AND",
+        "110":"OR",
+        "100":"XOR",
+        "001":"SLL",
+        "101":"SRL",
+        "010":"SLT",
+        "011":"SLTU",
+        "100":"DIV"
+    },
+    "S-TYPE":{
+        "001":"SH",
+        "010":"SW"
+    },
+    "B-TYPE":{
+        "000":"BEQ",
+        "001":"BNE",
+        "100":"BLT",
+        "101":"BGE",
+        "110":"BLTU",
+        
+    },
+    "I-TYPE":{
+        "000":"ADDI",
+        "010":"SLTI",
+        "011":"SLTIU",
+        "100":"XORI",
+        "110":"ORI",
+        "111":"ANDI",
+        "001":"SLLI",
+        "101":"SRLI_SRAI",
+        "000":"LB",
+        "001":"LH",
+        "010":"LW",
+        "100":"LBU",
+        "101":"LHU"
+    },
+    "J-TYPE":{
+        "000":"JAL"
+    }
+}
 
 
 dictionary_for_funct_7_for_operations={"R-TYPE":{"0000000":"ADD","0100000":"SUB","0000001":"MUL"}}
