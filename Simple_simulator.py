@@ -192,6 +192,26 @@ with open(output_file,"w") as Output_file_taken:
 
 
                     # Output_file_taken.write(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+#include for I Type instruction
+    if Instruction_type=="I-TYPE":
+        immediate_value=List_of_lines_of_the_input_file[i][0:12]  # 12-bit immediate
+        source_register_1=List_of_lines_of_the_input_file[i][12:17]  # rs1
+        funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  # funct3
+        destination_register=List_of_lines_of_the_input_file[i][20:25]  # rd
+        if source_register_1 not in Dict_for_binary_to_register:
+            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+            sys.exit(1) 
+        if funct3_for_this not in dictionary_for_funct_3_for_operations["I-TYPE"]:
+            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
+            sys.exit(1)
+        if destination_register not in Dict_for_binary_to_register:
+            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+            sys.exit(1)
+        Decimal_Value_immediate=binary_to_twos_complement(immediate_value)  
+        operation=dictionary_for_funct_3_for_operations["I-TYPE"][funct3_for_this]
+        if operation=="addi":
+            Dict_for_the_values_of_the_registers[destination_register]=Dict_for_the_values_of_the_registers[source_register_1]+Dict_for_the_values_of_the_registers[Decimal_Value_immediate]
+        elif operation=="lw":
 
 
 
@@ -1027,4 +1047,3 @@ with open(output_file,"w") as Output_file_taken:
 
 
 # B AN S TYPE
-
