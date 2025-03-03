@@ -735,3 +735,4 @@ if Done ==1 :
       print(f"Encoding For all the given instructions have been done and has been written to {output_file}.\nThanks BYE !")
       
 #done
+print("hello")
