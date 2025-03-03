@@ -56,6 +56,12 @@ Dict_for_same_registers = {
     "x27": "x27", "s11": "x27", "x28": "x28", "t3": "x28", "x29": "x29", "t4": "x29", "x30": "x30", "t5": "x30", 
     "x31": "x31", "t6": "x31"
 }
+def binary_to_twos_complement(binary_str):
+    bits = len(binary_str)
+    value = int(binary_str, 2)
+    if binary_str[0] == '1':  
+        value -= (1 << bits)
+    return value
 
 
 
