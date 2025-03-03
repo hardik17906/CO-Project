@@ -118,52 +118,63 @@ List_of_lines_of_the_input_file=[i.strip() for i in List_of_lines_of_the_input_f
 # print(List_of_lines_of_the_input_file)
 # print(len(List_of_lines_of_the_input_file[0]))
 i=0
-while i<len(List_of_lines_of_the_input_file):
-    if List_of_lines_of_the_input_file[i]=="":
-        i=i+1
-        continue
-    if len(i)!=32:
-        print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Instruction is not 32 bit.")
-        sys.exit(1)
-    binary_for_the_opcode=List_of_lines_of_the_input_file[i][25:]
-    if binary_for_the_opcode not in dictionary_for_opcode_for_operations:
-        print(f"There is an error in the line number {i+1} :{List_of_lines_of_the_input_file[i]}.\nError: Opcode given for this line is invald.")
-        sys.exit(1)
-    Instruction_type=dictionary_for_opcode_for_operations[binary_for_the_opcode] # TAKING OUT OPCODE FROM 32 BIT INFO
-
-#  for R -TYPE INSTRUCTIONS
-    if Instruction_type=="R-TYPE":
-        funct7_for_this=List_of_lines_of_the_input_file[i][0:7]
-        source_register_2=List_of_lines_of_the_input_file[i][7:12]
-        source_register_1=List_of_lines_of_the_input_file[i][12:17]
-        funct3_for_this=List_of_lines_of_the_input_file[i][17:20]
-        destination_register=List_of_lines_of_the_input_file[i][20:25]
- 
-        if funct3_for_this not in dictionary_for_funct_3_for_operations["R-TYPE"]:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
+program_counter=0
+with open(output_file,"w") as Output_file_taken:
+    while i<len(List_of_lines_of_the_input_file):
+        if List_of_lines_of_the_input_file[i]=="":
+            i=i+1
+            continue
+        if len(i)!=32:
+            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Instruction is not 32 bit.")
             sys.exit(1)
-        if funct7_for_this not in dictionary_for_funct_7_for_operations["R-TYPE"]:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct7 is not matching with any of the R-TYPE instructions.")
+        binary_for_the_opcode=List_of_lines_of_the_input_file[i][25:]
+        if binary_for_the_opcode not in dictionary_for_opcode_for_operations:
+            print(f"There is an error in the line number {i+1} :{List_of_lines_of_the_input_file[i]}.\nError: Opcode given for this line is invald.")
             sys.exit(1)
-        if source_register_1 not in Dict_for_binary_to_register:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
-            sys.exit(1)          
-        if source_register_2 not in Dict_for_binary_to_register:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 2 is not valid.")
-            sys.exit(1)          
-        if destination_register not in Dict_for_binary_to_register:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for destination register is not valid.")
-            sys.exit(1)          
-        operation=dictionary_for_funct_3_for_operations["R-TYPE"][funct3_for_this]
-        if operation=="ADD_SUB_MUL":
-            operation=dictionary_for_funct_7_for_operations["R-TYPE"][funct7_for_this]
-        source_register_1=Dict_for_binary_to_register[source_register_1]
-        source_register_2=Dict_for_binary_to_register[source_register_2]
-        destination_register=Dict_for_binary_to_register[destination_register]
+        Instruction_type=dictionary_for_opcode_for_operations[binary_for_the_opcode] # TAKING OUT OPCODE FROM 32 BIT INFO
 
-        # For ADD instruction
-        if operation=="ADD":
-            Dict_for_the_values_of_the_registers[destination_register]=
+    #  for R -TYPE INSTRUCTIONS
+        if Instruction_type=="R-TYPE":
+            funct7_for_this=List_of_lines_of_the_input_file[i][0:7]
+            source_register_2=List_of_lines_of_the_input_file[i][7:12]
+            source_register_1=List_of_lines_of_the_input_file[i][12:17]
+            funct3_for_this=List_of_lines_of_the_input_file[i][17:20]
+            destination_register=List_of_lines_of_the_input_file[i][20:25]
+    
+            if funct3_for_this not in dictionary_for_funct_3_for_operations["R-TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
+                sys.exit(1)
+            if funct7_for_this not in dictionary_for_funct_7_for_operations["R-TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct7 is not matching with any of the R-TYPE instructions.")
+                sys.exit(1)
+            if source_register_1 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+                sys.exit(1)          
+            if source_register_2 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 2 is not valid.")
+                sys.exit(1)          
+            if destination_register not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for destination register is not valid.")
+                sys.exit(1)          
+            operation=dictionary_for_funct_3_for_operations["R-TYPE"][funct3_for_this]
+            if operation=="ADD_SUB_MUL":
+                operation=dictionary_for_funct_7_for_operations["R-TYPE"][funct7_for_this]
+            source_register_1_=Dict_for_binary_to_register[source_register_1]
+            source_register_2_=Dict_for_binary_to_register[source_register_2]
+            destination_register_=Dict_for_binary_to_register[destination_register]
+
+
+
+            # For ADD instruction
+            if operation=="ADD":
+                Dict_for_the_values_of_the_registers[destination_register_]=Dict_for_the_values_of_the_registers[source_register_1_]+Dict_for_the_values_of_the_registers[source_register_2_]
+            elif operation=="SUB":
+                Dict_for_the_values_of_the_registers[destination_register_]=Dict_for_the_values_of_the_registers[source_register_1_]-Dict_for_the_values_of_the_registers[source_register_2_]
+            elif operation=="MUL":
+                Dict_for_the_values_of_the_registers[destination_register_]=Dict_for_the_values_of_the_registers[source_register_1_]*Dict_for_the_values_of_the_registers[source_register_2_]
+            elif operation=="AND":
+                Dict_for_the_values_of_the_registers[destination_register]
+
 
             
 
