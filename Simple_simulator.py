@@ -1047,3 +1047,17 @@ with open(output_file,"w") as Output_file_taken:
 
 
 # B AN S TYPE
+if Instruction_type=="B-TYPE":
+    #"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_beq}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_beq}\n")
+    imm_0= List_of_lines_of_the_input_file[i][0]
+    imm_2_7 = List_of_lines_of_the_input_file[i][1:7]
+    rx2 = List_of_lines_of_the_input_file[i][7:12]
+    rx1 = List_of_lines_of_the_input_file[i][12:17]
+    funct3 = List_of_lines_of_the_input_file[i][17:20]
+    imm_8_11 = List_of_lines_of_the_input_file[i][20:23]
+    imm_1 = List_of_lines_of_the_input_file[i][23]
+
+    final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11
+
+    operation=dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
+    
