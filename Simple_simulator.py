@@ -11,7 +11,7 @@ output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
 # As said in the instructions that we have to initialize all the registers to zero
 # so making a dictionary for the value of the regsiters
 Dict_for_the_values_of_the_registers=registers = {
-    "zero": 0, "x0": 0, "x1": 0, "ra": 0, "x2": 0, "sp": 0, "x3": 0, "gp": 0, "x4": 0, "tp": 0, 
+    "zero": 0, "x0": 0, "x1": 0, "ra": 0, "x2": 380, "sp": 0, "x3": 0, "gp": 0, "x4": 0, "tp": 0, 
     "x5": 0, "t0": 0, "x6": 0, "t1": 0, "x7": 0, "t2": 0, "x8": 0, "s0": 0, "x9": 0, "s1": 0, 
     "x10": 0, "a0": 0, "x11": 0, "a1": 0, "x12": 0, "a2": 0, "x13": 0, "a3": 0, "x14": 0, "a4": 0, 
     "x15": 0, "a5": 0, "x16": 0, "a6": 0, "x17": 0, "a7": 0, "x18": 0, "s2": 0, "x19": 0, "s3": 0, 
@@ -19,6 +19,8 @@ Dict_for_the_values_of_the_registers=registers = {
     "x25": 0, "s9": 0, "x26": 0, "s10": 0, "x27": 0, "s11": 0, "x28": 0, "t3": 0, "x29": 0, "t4": 0, 
     "x30": 0, "t5": 0, "x31": 0, "t6": 0
 }
+
+
 
 
 # Dictionary for binary to register
