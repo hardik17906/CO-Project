@@ -24,8 +24,7 @@ Dict_for_the_values_of_the_registers=registers = {
 # making dictionary for opcodes for different operations
 
 dictionary_for_opcode_for_operations = {"0110011":"R-TYPE","0010011":"I-TYPE","0100011":"S-TYPE","1100011":"B-TYPE","1101111":"J-TYPE"}
-
-
+dictionary_for_funct_3_for_operations={"R-TYPE":{""}}
 with open(input_file,"r") as Input_file_taken:
     List_of_lines_of_the_input_file=Input_file_taken.readlines()
 
@@ -37,9 +36,27 @@ List_of_lines_of_the_input_file=[i.strip() for i in List_of_lines_of_the_input_f
 
 for i in range(len(List_of_lines_of_the_input_file)):
     if len(i)!=32:
-        print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Instructions is not 32 bit")
+        print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Instruction is not 32 bit.")
         sys.exit(1)
     binary_for_the_opcode=List_of_lines_of_the_input_file[i][25:]
-    
-    Instruction_type=dictionary_for_opcode_for_operations[binary_for_the_opcode]
+    if binary_for_the_opcode not in dictionary_for_opcode_for_operations:
+        print(f"There is an error in the line number {i+1} :{List_of_lines_of_the_input_file[i]}.\nError: Opcode given for this line is invald.")
+        sys.exit(1)
+    Instruction_type=dictionary_for_opcode_for_operations[binary_for_the_opcode] # TAKING OUT OPCODE FROM 32 BIT INFO
+
+#  for R -TYPE INSTRUCTIONS
+    if Instruction_type=="R-TYPE":
+        funct7_for_this=List_of_lines_of_the_input_file[i][0:7]
+        source_register_2=List_of_lines_of_the_input_file[i][7:12]
+        source_register_1=List_of_lines_of_the_input_file[i][12:17]
+        funct3_for_this=List_of_lines_of_the_input_file[i][17:20]
+        destination_register=List_of_lines_of_the_input_file[i][20:25]
+ 
+        # For add instruction
+
+
+
+
+                    # Output_file_taken.write(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+
 
