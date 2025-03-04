@@ -10,17 +10,7 @@ output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
 
 # As said in the instructions that we have to initialize all the registers to zero
 # so making a dictionary for the value of the regsiters
-def twos_complement_to_decimal(binary_str):
-    if len(binary_str) != 12:
-        raise ValueError("Input must be a 12-bit binary string")
-    
-    # Check if the number is negative (if the first bit is 1)
-    if binary_str[0] =d= '1':
-        # Convert to decimal and subtract 2^12 to get the negative value
-        return int(binary_str, 2) - (1 << 12)
-    else:
-        # Convert to decimal directly for positive numbers
-        return int(binary_str, 2)
+
 Dict_for_the_values_of_the_registers=registers = {
     "zero": 0, "x0": 0, "x1": 0, "ra": 0, "x2": 380, "sp": 0, "x3": 0, "gp": 0, "x4": 0, "tp": 0, 
     "x5": 0, "t0": 0, "x6": 0, "t1": 0, "x7": 0, "t2": 0, "x8": 0, "s0": 0, "x9": 0, "s1": 0, 
