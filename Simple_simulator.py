@@ -19,11 +19,13 @@ def decimal_to_32bit_binary(value):
 
 # Function for converison of binary to decimal
 def twos_complement_to_decimal(value_in_binary_form):
-    value_in_binary_form=str(value_in_binary_form)
+    value_in_binary_form = str(value_in_binary_form)
+    bit_length = len(value_in_binary_form)
+    
     if value_in_binary_form[0] == '0':  
         return int(value_in_binary_form, 2)
     else:
-        return int(value_in_binary_form, 2) - (1 << 32)
+        return int(value_in_binary_form, 2) - (1 << bit_length)
     
 def and_for_two_registers(source_1,source_2):
     final_answer=""
@@ -66,6 +68,12 @@ def xor_for_two_registers(source_1,source_2):
             final_answer+="0"
     return final_answer
 
+
+def decimal_to_8bit_hex(value):
+    if value < 0:
+        value = (1 << 32) + value  
+    return f'0x{value:08X}'  
+
 # As said in the instructions that we have to initialize all the registers to zero
 # so making a dictionary for the value of the regsiters
 Dict_for_the_values_of_the_registers = {
@@ -102,7 +110,7 @@ Dict_for_same_registers = {
 
 
 # making dictionary for opcodes for different operations
-dictionary_for_opcode_for_operations = {"0110011":"R-TYPE","0010011":"I-TYPE","0100011":"S-TYPE","1100011":"B-TYPE","1101111":"J-TYPE"}
+dictionary_for_opcode_for_operations = {"0110011":"R-TYPE","0010011":"ADDI","0000011":"LW","1100111":"JALR","0100011":"S-TYPE","1100011":"B-TYPE","1101111":"J-TYPE"}
 
 #dictionary for the funct3 
 dictionary_for_funct_3_for_operations={
@@ -227,7 +235,7 @@ with open(output_file,"w") as Output_file_taken:
 
 
             # For ADD instruction
-            print(operation)
+            # print(operation)
             if operation=="ADD":
                 value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]+Dict_for_the_values_of_the_registers[source_register_2_]
                 if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
@@ -277,46 +285,156 @@ with open(output_file,"w") as Output_file_taken:
             program_counter+=4
             # print(Dict_for_the_values_of_the_registers)
             # print("\n\n\n\n\n")
-            Output_file_taken.write(str(program_counter)+" ")
+
+
+            # Output_file_taken.write(str(program_counter)+" ")
+
+            # for registers in Dict_for_the_values_of_the_registers:
+            #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+
+            Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
 
             for registers in Dict_for_the_values_of_the_registers:
-                Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
             Output_file_taken.write("\n")
 
+
+    #    I-TYPE INSTRUCTION
+
+        elif Instruction_type=="ADDI":
+            immediate_value=List_of_lines_of_the_input_file[i][0:12]  
+            source_register_1=List_of_lines_of_the_input_file[i][12:17]  
+            funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
+            destination_register=List_of_lines_of_the_input_file[i][20:25] 
+            if source_register_1 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+                sys.exit(1) 
+            if funct3_for_this not in dictionary_for_funct_3_for_operations["I-TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
+                sys.exit(1)
+            if destination_register not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for destination register is not valid.")
+                sys.exit(1)
+            source_register_1_=Dict_for_binary_to_register[source_register_1]
+            destination_register_=Dict_for_binary_to_register[destination_register] 
+            print(immediate_value)                
+            Decimal_Value_of_immediate=twos_complement_to_decimal(immediate_value)
+            value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate
+            # print(Decimal_Value_of_immediate)
+            # print(Dict_for_the_values_of_the_registers[source_register_1_])
+            # print(value_to_be_stored)
+            if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                print(f"Line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
+                sys.exit(1)
+            Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+            i+=1
+            program_counter+=4
+            Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+            for registers in Dict_for_the_values_of_the_registers:
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            Output_file_taken.write("\n")
+
+
+        elif Instruction_type=="JALR":
+            immediate_value=List_of_lines_of_the_input_file[i][0:12]  
+            source_register_1=List_of_lines_of_the_input_file[i][12:17]  
+            funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
+            destination_register=List_of_lines_of_the_input_file[i][20:25] 
+            if source_register_1 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+                sys.exit(1) 
+            if funct3_for_this not in dictionary_for_funct_3_for_operations["I-TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
+                sys.exit(1)
+            if destination_register not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for destination register is not valid.")
+                sys.exit(1)
+            source_register_1_=Dict_for_binary_to_register[source_register_1]
+            destination_register_=Dict_for_binary_to_register[destination_register]                 
+            Decimal_Value_of_immediate=twos_complement_to_decimal(immediate_value)
+            value_to_be_stored_inside_the_destination_regsiter=program_counter+4
+            Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored_inside_the_destination_regsiter
+            new_value_for_program_counter=Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate
+            # print(new_value_for_program_counter)
+            if (new_value_for_program_counter)%4!=0:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a multiple of 4.So this is an error.")
+                sys.exit(1)
+            program_counter=new_value_for_program_counter
+            i=program_counter//4
+            # Output_file_taken.write(str(program_counter)+" ")
+
+            # for registers in Dict_for_the_values_of_the_registers:
+            #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+
+            Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+            for registers in Dict_for_the_values_of_the_registers:
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            Output_file_taken.write("\n")
+
+
+
+
+        elif Instruction_type=="LW":
+            immediate_value=List_of_lines_of_the_input_file[i][0:12]  
+            source_register_1=List_of_lines_of_the_input_file[i][12:17]  
+            funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
+            destination_register=List_of_lines_of_the_input_file[i][20:25] 
+            if source_register_1 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+                sys.exit(1) 
+            if funct3_for_this not in dictionary_for_funct_3_for_operations["I-TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
+                sys.exit(1)
+            if destination_register not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for destination register is not valid.")
+                sys.exit(1)
+            source_register_1_=Dict_for_binary_to_register[source_register_1]
+            destination_register_=Dict_for_binary_to_register[destination_register]                 
+            Decimal_Value_of_immediate=twos_complement_to_decimal(immediate_value)
+            # print(decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate))
+            value_to_be_stored=dict_for_values_stored_in_memory_locations[decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate)]
+            if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
+                sys.exit(1)
+            Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+            i+=1
+            program_counter+=4
+            # Output_file_taken.write(str(program_counter)+" ")
+
+            # for registers in Dict_for_the_values_of_the_registers:
+            #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+        
+            
+            Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+            for registers in Dict_for_the_values_of_the_registers:
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            Output_file_taken.write("\n")
+
+
+
+
+
+
+
+
+
+        print(program_counter)
+
+
     for i in dict_for_values_stored_in_memory_locations:
-        Output_file_taken.write(f"{i}:{dict_for_values_stored_in_memory_locations[i]}\n")   
+        Output_file_taken.write(f"{i}:0b{decimal_to_32bit_binary(dict_for_values_stored_in_memory_locations[i])}\n")   
 
 
             
 
-        # For ADD instruction
 
 
 
 
 
 
-                    # Output_file_taken.write(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
-#include for I Type instruction
-    if Instruction_type=="I-TYPE":
-        immediate_value=List_of_lines_of_the_input_file[i][0:12]  # 12-bit immediate
-        source_register_1=List_of_lines_of_the_input_file[i][12:17]  # rs1
-        funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  # funct3
-        destination_register=List_of_lines_of_the_input_file[i][20:25]  # rd
-        if source_register_1 not in Dict_for_binary_to_register:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
-            sys.exit(1) 
-        if funct3_for_this not in dictionary_for_funct_3_for_operations["I-TYPE"]:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
-            sys.exit(1)
-        if destination_register not in Dict_for_binary_to_register:
-            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
-            sys.exit(1)
-        Decimal_Value_immediate=binary_to_twos_complement(immediate_value)  
-        operation=dictionary_for_funct_3_for_operations["I-TYPE"][funct3_for_this]
-        if operation=="addi":
-            Dict_for_the_values_of_the_registers[destination_register]=Dict_for_the_values_of_the_registers[source_register_1]+Dict_for_the_values_of_the_registers[Decimal_Value_immediate]
-        elif operation=="lw":
 
 
 
@@ -1151,18 +1269,74 @@ with open(output_file,"w") as Output_file_taken:
 
 
 
-# B AN S TYPE
-if Instruction_type=="B-TYPE":
-    #"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_beq}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_beq}\n")
-    imm_0= List_of_lines_of_the_input_file[i][0]
-    imm_2_7 = List_of_lines_of_the_input_file[i][1:7]
-    rx2 = List_of_lines_of_the_input_file[i][7:12]
-    rx1 = List_of_lines_of_the_input_file[i][12:17]
-    funct3 = List_of_lines_of_the_input_file[i][17:20]
-    imm_8_11 = List_of_lines_of_the_input_file[i][20:23]
-    imm_1 = List_of_lines_of_the_input_file[i][23]
 
-    final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11
 
-    operation=dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # B AN S TYPE
+# if Instruction_type=="B-TYPE":
+#     #"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_beq}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_beq}\n")
+#     imm_0= List_of_lines_of_the_input_file[i][0]
+#     imm_2_7 = List_of_lines_of_the_input_file[i][1:7]
+#     rx2 = List_of_lines_of_the_input_file[i][7:12]
+#     rx1 = List_of_lines_of_the_input_file[i][12:17]
+#     funct3 = List_of_lines_of_the_input_file[i][17:20]
+#     imm_8_11 = List_of_lines_of_the_input_file[i][20:23]
+#     imm_1 = List_of_lines_of_the_input_file[i][23]
+
+#     final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11
+
+#     operation=dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
     
