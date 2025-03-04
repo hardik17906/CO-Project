@@ -8,20 +8,72 @@ if len(sys.argv)!=3 :
 input_file=sys.argv[1]   # loading name of input txt file in input_file
 output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
 
+
+# Function for conversion  of decimal to binary
+def decimal_to_32bit_binary(value):
+    value=int(value)
+    if value < -2**31 or value >= 2**31:
+        return "Error"
+    return format(value & 0xFFFFFFFF, '032b')
+
+
+# Function for converison of binary to decimal
+def twos_complement_to_decimal(value_in_binary_form):
+    value_in_binary_form=str(value_in_binary_form)
+    if value_in_binary_form[0] == '0':  
+        return int(value_in_binary_form, 2)
+    else:
+        return int(value_in_binary_form, 2) - (1 << 32)
+    
+def and_for_two_registers(source_1,source_2):
+    final_answer=""
+    for i in range(0,32):
+        if source_1[i]=="0" and source_2[i]=="1":
+            final_answer+="0"
+        elif source_1[i]=="1" and source_2[i]=="1":
+            final_answer+="1"
+        elif source_1[i]=="1" and source_2[i]=="0":
+            final_answer+="0"
+        else:
+            final_answer+="0"
+    return final_answer
+
+
+def or_for_two_registers(source_1,source_2):
+    final_answer=""
+    for i in range(0,32):
+        if source_1[i]=="0" and source_2[i]=="1":
+            final_answer+="1"
+        elif source_1[i]=="1" and source_2[i]=="1":
+            final_answer+="1"
+        elif source_1[i]=="1" and source_2[i]=="0":
+            final_answer+="1"
+        else:
+            final_answer+="0"
+    return final_answer
+
+
+def xor_for_two_registers(source_1,source_2):
+    final_answer=""
+    for i in range(0,32):
+        if source_1[i]=="0" and source_2[i]=="1":
+            final_answer+="1"
+        elif source_1[i]=="1" and source_2[i]=="1":
+            final_answer+="0"
+        elif source_1[i]=="1" and source_2[i]=="0":
+            final_answer+="1"
+        else:
+            final_answer+="0"
+    return final_answer
+
 # As said in the instructions that we have to initialize all the registers to zero
 # so making a dictionary for the value of the regsiters
-
-Dict_for_the_values_of_the_registers=registers = {
-    "zero": 0, "x0": 0, "x1": 0, "ra": 0, "x2": 380, "sp": 0, "x3": 0, "gp": 0, "x4": 0, "tp": 0, 
-    "x5": 0, "t0": 0, "x6": 0, "t1": 0, "x7": 0, "t2": 0, "x8": 0, "s0": 0, "x9": 0, "s1": 0, 
-    "x10": 0, "a0": 0, "x11": 0, "a1": 0, "x12": 0, "a2": 0, "x13": 0, "a3": 0, "x14": 0, "a4": 0, 
-    "x15": 0, "a5": 0, "x16": 0, "a6": 0, "x17": 0, "a7": 0, "x18": 0, "s2": 0, "x19": 0, "s3": 0, 
-    "x20": 0, "s4": 0, "x21": 0, "s5": 0, "x22": 0, "s6": 0, "x23": 0, "s7": 0, "x24": 0, "s8": 0, 
-    "x25": 0, "s9": 0, "x26": 0, "s10": 0, "x27": 0, "s11": 0, "x28": 0, "t3": 0, "x29": 0, "t4": 0, 
-    "x30": 0, "t5": 0, "x31": 0, "t6": 0
+Dict_for_the_values_of_the_registers = {
+    "x0": 0, "x1": 0, "x2": 380, "x3": 0, "x4": 0, "x5": 0, "x6": 0, "x7": 0, 
+    "x8": 0, "x9": 0, "x10": 0, "x11": 0, "x12": 0, "x13": 0, "x14": 0, "x15": 0, 
+    "x16": 0, "x17": 0, "x18": 0, "x19": 0, "x20": 0, "x21": 0, "x22": 0, "x23": 0, 
+    "x24": 0, "x25": 0, "x26": 0, "x27": 0, "x28": 0, "x29": 0, "x30": 0, "x31": 0
 }
-
-
 
 
 # Dictionary for binary to register
@@ -46,19 +98,13 @@ Dict_for_same_registers = {
     "x27": "x27", "s11": "x27", "x28": "x28", "t3": "x28", "x29": "x29", "t4": "x29", "x30": "x30", "t5": "x30", 
     "x31": "x31", "t6": "x31"
 }
-def binary_to_twos_complement(binary_str):
-    bits = len(binary_str)
-    value = int(binary_str, 2)
-    if binary_str[0] == '1':  
-        value -= (1 << bits)
-    return value
 
 
 
 # making dictionary for opcodes for different operations
 dictionary_for_opcode_for_operations = {"0110011":"R-TYPE","0010011":"I-TYPE","0100011":"S-TYPE","1100011":"B-TYPE","1101111":"J-TYPE"}
 
-
+#dictionary for the funct3 
 dictionary_for_funct_3_for_operations={
     "R-TYPE":{
         "000":"ADD_SUB_MUL",
@@ -104,7 +150,21 @@ dictionary_for_funct_3_for_operations={
 }
 
 
+#dictionary for the funct7
 dictionary_for_funct_7_for_operations={"R-TYPE":{"0000000":"ADD","0100000":"SUB","0000001":"MUL"}}
+
+#dictionary for the values stored in the memory locations
+dict_for_values_stored_in_memory_locations = {
+    "0x00010000": 0, "0x00010004": 0, "0x00010008": 0, "0x0001000C": 0, "0x00010010": 0, "0x00010014": 0,
+    "0x00010018": 0, "0x0001001C": 0, "0x00010020": 0, "0x00010024": 0, "0x00010028": 0, "0x0001002C": 0,
+    "0x00010030": 0, "0x00010034": 0, "0x00010038": 0, "0x0001003C": 0, "0x00010040": 0, "0x00010044": 0,
+    "0x00010048": 0, "0x0001004C": 0, "0x00010050": 0, "0x00010054": 0, "0x00010058": 0, "0x0001005C": 0,
+    "0x00010060": 0, "0x00010064": 0, "0x00010068": 0, "0x0001006C": 0, "0x00010070": 0, "0x00010074": 0,
+    "0x00010078": 0, "0x0001007C": 0
+}
+
+
+
 with open(input_file,"r") as Input_file_taken:
     List_of_lines_of_the_input_file=Input_file_taken.readlines()
 
@@ -120,9 +180,15 @@ with open(output_file,"w") as Output_file_taken:
         if List_of_lines_of_the_input_file[i]=="":
             i=i+1
             continue
-        if len(i)!=32:
+        if len(List_of_lines_of_the_input_file[i])!=32:
             print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Instruction is not 32 bit.")
             sys.exit(1)
+        for value in List_of_lines_of_the_input_file[i]:
+            if value =="0" or value =="1":
+                pass
+            else:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Instruction is incorrect. Bits can only be either 0 or 1.")
+                sys.exit(1)
         binary_for_the_opcode=List_of_lines_of_the_input_file[i][25:]
         if binary_for_the_opcode not in dictionary_for_opcode_for_operations:
             print(f"There is an error in the line number {i+1} :{List_of_lines_of_the_input_file[i]}.\nError: Opcode given for this line is invald.")
@@ -160,16 +226,65 @@ with open(output_file,"w") as Output_file_taken:
             destination_register_=Dict_for_binary_to_register[destination_register]
 
 
-
             # For ADD instruction
+            print(operation)
             if operation=="ADD":
-                Dict_for_the_values_of_the_registers[destination_register_]=Dict_for_the_values_of_the_registers[source_register_1_]+Dict_for_the_values_of_the_registers[source_register_2_]
+                value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]+Dict_for_the_values_of_the_registers[source_register_2_]
+                if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                    print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
+                    sys.exit(1)
+                Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+
+            #  for Sub instruction
             elif operation=="SUB":
-                Dict_for_the_values_of_the_registers[destination_register_]=Dict_for_the_values_of_the_registers[source_register_1_]-Dict_for_the_values_of_the_registers[source_register_2_]
+                value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]-Dict_for_the_values_of_the_registers[source_register_2_]
+                if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                    print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
+                    sys.exit(1)
+                Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+
             elif operation=="MUL":
-                Dict_for_the_values_of_the_registers[destination_register_]=Dict_for_the_values_of_the_registers[source_register_1_]*Dict_for_the_values_of_the_registers[source_register_2_]
+                value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]*Dict_for_the_values_of_the_registers[source_register_2_]
+                if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                    print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
+                    sys.exit(1)
+                Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+
             elif operation=="AND":
-                Dict_for_the_values_of_the_registers[destination_register]
+                Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(and_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+            elif operation=="OR":
+                Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(or_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+            elif operation=="XOR":
+                # print(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+                Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+            elif operation=="SLL":
+                value_of_rs2=Dict_for_the_values_of_the_registers[source_register_2_]
+                value_of_rs2=value_of_rs2%32
+                value_to_be_stored=((Dict_for_the_values_of_the_registers[source_register_1_]) << value_of_rs2) & 0xFFFFFFFF
+                Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+
+            elif operation=="SRL":
+                value_of_rs2=Dict_for_the_values_of_the_registers[source_register_2_]
+                value_of_rs2=value_of_rs2%32
+                value_to_be_stored = ((Dict_for_the_values_of_the_registers[source_register_1_]) >> value_of_rs2) & 0xFFFFFFFF
+                Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+            elif operation=="SLT":
+                if Dict_for_the_values_of_the_registers[source_register_1_]<Dict_for_the_values_of_the_registers[source_register_2_]:
+                    Dict_for_the_values_of_the_registers[destination_register_]=1
+                else:
+                    Dict_for_the_values_of_the_registers[destination_register_]=0
+            i+=1
+            program_counter+=4
+            # print(Dict_for_the_values_of_the_registers)
+            # print("\n\n\n\n\n")
+            Output_file_taken.write(str(program_counter)+" ")
+
+            for registers in Dict_for_the_values_of_the_registers:
+                Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            Output_file_taken.write("\n")
+
+    for i in dict_for_values_stored_in_memory_locations:
+        Output_file_taken.write(f"{i}:{dict_for_values_stored_in_memory_locations[i]}\n")   
 
 
             
