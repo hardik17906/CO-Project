@@ -45,8 +45,12 @@ dictionary_fro_line_number_of_label={}
 #  Making a list of all the given instructions in the input file 
 with open(input_file,"r") as Input_file_taken:
     List_of_lines_of_input_file=Input_file_taken.readlines()
-
-Temp_for_virtual_error_checker=List_of_lines_of_input_file[-1].split(":")
+for i in range(len(List_of_lines_of_input_file)-1,-1,-1):
+      if List_of_lines_of_input_file[i].strip()=="":
+            continue
+      else:
+            break
+Temp_for_virtual_error_checker=List_of_lines_of_input_file[i].split(":")
 # print(Temp_for_virtual_error_checker)
 if len(Temp_for_virtual_error_checker)==2:
     if f"beq zero,zero,{Temp_for_virtual_error_checker[0].strip()}" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,0" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,-0" not in Temp_for_virtual_error_checker[1].strip() :
@@ -83,6 +87,8 @@ with open(output_file,"w") as Output_file_taken:
     for i in range(len(List_of_lines_of_input_file)):
 
         if List_of_lines_of_input_file[i].strip()=="" :
+            if i==len(List_of_lines_of_input_file)-1:
+                  Done=1
             continue
         # print(List_of_lines_of_input_file[i],end="")
         
@@ -93,6 +99,8 @@ with open(output_file,"w") as Output_file_taken:
         List_after_colon_separated_for_further=List_after_colon_separated[len(List_after_colon_separated)-1].strip(" ")
         # print(List_after_colon_separated_for_further)
         List_after_space_separated=(List_after_colon_separated_for_further.strip()).split(" ")
+        List_for_next=List_after_space_separated[1:]
+        List_after_space_separated=[List_after_space_separated[0],"".join(List_for_next)]
         List_after_comma_separated=List_after_space_separated[1].split(",")
         List_after_comma_separated=[i.strip() for i in List_after_comma_separated]
         # print(List_after_space_separated)
@@ -166,7 +174,6 @@ with open(output_file,"w") as Output_file_taken:
             funct3_for_or="110"
             # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
             Output_file_taken.write(f"{funct7_for_or}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_or}{Register_map_with_their_binary_values[rd]}{opcode_for_or}\n")
-
 
         elif List_after_space_separated[0]=="xor":
             if len(List_after_comma_separated)!=3 :
@@ -585,13 +592,15 @@ with open(output_file,"w") as Output_file_taken:
                         if immi in dictionary_fro_line_number_of_label:
                               offset=dictionary_fro_line_number_of_label[immi]
                               immi=(offset-i)*4
+                            #   print(immi)
                         else :
                               print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
                               break
                     imm_in_binary=str(converter_to_12bit_binary(immi))
                     opcode_for_beq="1100011" 
                     funct3_for_beq="000" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_beq}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_beq}\n")
+                    imm_in_binary=imm_in_binary[0]+imm_in_binary[0:11]
+                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_beq}{imm_in_binary[8:]}{imm_in_binary[1]}{opcode_for_beq}\n")
 
         elif List_after_space_separated[0]=="bge":
                     if len(List_after_comma_separated)!=3 :
@@ -616,7 +625,8 @@ with open(output_file,"w") as Output_file_taken:
                     imm_in_binary=str(converter_to_12bit_binary(immi))
                     opcode_for_bge="1100011" 
                     funct3_for_bge="101" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bge}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_bge}\n")
+                    imm_in_binary=imm_in_binary[0]+imm_in_binary[0:11]
+                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bge}{imm_in_binary[8:]}{imm_in_binary[1]}{opcode_for_bge}\n")
               
         elif List_after_space_separated[0]=="bne":
                     if len(List_after_comma_separated)!=3 :
@@ -635,13 +645,16 @@ with open(output_file,"w") as Output_file_taken:
                         if immi in dictionary_fro_line_number_of_label:
                               offset=dictionary_fro_line_number_of_label[immi]
                               immi=(offset-i)*4
+                              print(immi)
+
                         else :
                               print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
                               break
                     imm_in_binary=str(converter_to_12bit_binary(immi))
                     opcode_for_bne="1100011" 
                     funct3_for_bne="001" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bne}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_bne}\n")
+                    imm_in_binary=imm_in_binary[0]+imm_in_binary[0:11]
+                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bne}{imm_in_binary[8:]}{imm_in_binary[1]}{opcode_for_bne}\n")
 
 
 
@@ -668,7 +681,8 @@ with open(output_file,"w") as Output_file_taken:
                     imm_in_binary=str(converter_to_12bit_binary(immi))
                     opcode_for_blt="1100011" 
                     funct3_for_blt="100" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_blt}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_blt}\n")
+                    imm_in_binary=imm_in_binary[0]+imm_in_binary[0:11]
+                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_blt}{imm_in_binary[8:]}{imm_in_binary[1]}{opcode_for_blt}\n")
 
         elif List_after_space_separated[0]=="bltu":
                     if len(List_after_comma_separated)!=3 :
@@ -693,7 +707,8 @@ with open(output_file,"w") as Output_file_taken:
                     imm_in_binary=str(converter_to_12bit_binary(immi))
                     opcode_for_bltu="1100011" 
                     funct3_for_bltu="110" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[1:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bltu}{imm_in_binary[7:11]}{imm_in_binary[1]}{opcode_for_bltu}\n")
+                    imm_in_binary=imm_in_binary[0]+imm_in_binary[0:11]
+                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bltu}{imm_in_binary[8:]}{imm_in_binary[1]}{opcode_for_bltu}\n")
 
 # FOR J -TYPE INSTRUCTIONS 
         elif List_after_space_separated[0]=="jal":
@@ -732,8 +747,6 @@ with open(output_file,"w") as Output_file_taken:
 
 
 if Done ==1 :
-      print(f"Encoding For all the given instructions have been done and has been written to {output_file}.\nThanks BYE !")
+      print(f"Encoding For all the given instructions have been done and Their has been written to {output_file}.\nThanks BYE !")
       
-#done
-print("hello")
-#okyy
+      
