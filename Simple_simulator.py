@@ -210,7 +210,7 @@ with open(output_file,"w") as Output_file_taken:
             source_register_1=List_of_lines_of_the_input_file[i][12:17]
             funct3_for_this=List_of_lines_of_the_input_file[i][17:20]
             destination_register=List_of_lines_of_the_input_file[i][20:25]
-    
+      
             if funct3_for_this not in dictionary_for_funct_3_for_operations["R-TYPE"]:
                 print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the R-TYPE instructions.")
                 sys.exit(1)
@@ -420,6 +420,59 @@ with open(output_file,"w") as Output_file_taken:
 
 
 
+
+
+
+
+
+
+        # B-TYPE INSTRUCTION
+        if Instruction_type=="B-TYPE":
+            imm_0 = List_of_lines_of_the_input_file[i][0]
+            imm_2_7 = List_of_lines_of_the_input_file[i][1:7]
+            rx2 = List_of_lines_of_the_input_file[i][7:12]
+            rx1 = List_of_lines_of_the_input_file[i][12:17]
+            funct3 = List_of_lines_of_the_input_file[i][17:20]
+            imm_8_11 = List_of_lines_of_the_input_file[i][20:24]
+            imm_1 = List_of_lines_of_the_input_file[i][24]
+        
+            final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11 + "0"
+            Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
+        
+            operation = dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
+            rx1_ = Dict_for_binary_to_register[rx1]
+            rx2_ = Dict_for_binary_to_register[rx2]
+        
+            if operation == "BEQ":
+                if Dict_for_the_values_of_the_registers[rx1_] == Dict_for_the_values_of_the_registers[rx2_]:
+                    program_counter += Decimal_Value_of_immediate
+                    i = program_counter // 4
+                    continue
+        
+            elif operation == "BNE":
+                if Dict_for_the_values_of_the_registers[rx1_] != Dict_for_the_values_of_the_registers[rx2_]:
+                    program_counter += Decimal_Value_of_immediate
+                    i = program_counter // 4
+                    continue
+        
+            elif operation == "BLT":
+                if Dict_for_the_values_of_the_registers[rx1_] < Dict_for_the_values_of_the_registers[rx2_]:
+                    program_counter += Decimal_Value_of_immediate
+                    i = program_counter // 4
+                    continue
+        
+            elif operation == "BGE":
+                if Dict_for_the_values_of_the_registers[rx1_] >= Dict_for_the_values_of_the_registers[rx2_]:
+                    program_counter += Decimal_Value_of_immediate
+                    i = program_counter // 4
+                    continue
+        
+            elif operation == "BLTU":
+        
+                    continue
+        
+            i += 1
+            program_counter += 4
         print(program_counter)
 
 
