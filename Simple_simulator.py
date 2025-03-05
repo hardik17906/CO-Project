@@ -427,7 +427,7 @@ with open(output_file,"w") as Output_file_taken:
 
 
         # B-TYPE INSTRUCTION
-        if Instruction_type=="B-TYPE":
+        elif Instruction_type=="B-TYPE":
             imm_0 = List_of_lines_of_the_input_file[i][0]
             imm_2_7 = List_of_lines_of_the_input_file[i][1:7]
             rx2 = List_of_lines_of_the_input_file[i][7:12]
@@ -436,7 +436,8 @@ with open(output_file,"w") as Output_file_taken:
             imm_8_11 = List_of_lines_of_the_input_file[i][20:24]
             imm_1 = List_of_lines_of_the_input_file[i][24]
         
-            final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11 + "0"
+            # final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11 + "0"
+            final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11 
             Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
         
             operation = dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
@@ -473,6 +474,25 @@ with open(output_file,"w") as Output_file_taken:
         
             i += 1
             program_counter += 4
+        # S-TYPE INSTRUCTION
+        elif Instruction_type=="S-TYPE":
+            imm_0_6 = List_of_lines_of_the_input_file[i][0:7]
+            rx2 = List_of_lines_of_the_input_file[i][7:12]
+            rx1 = List_of_lines_of_the_input_file[i][12:17]
+            funct3 = List_of_lines_of_the_input_file[i][17:20]
+            imm_7_11 = List_of_lines_of_the_input_file[i][20:25]
+        
+            final_imm = imm_0_6 + imm_7_11
+            Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
+        
+            operation = dictionary_for_funct_3_for_operations["S-TYPE"][funct3]
+            rx1_ = Dict_for_binary_to_register[rx1]
+            rx2_ = Dict_for_binary_to_register[rx2]
+
+
+
+
+        
         print(program_counter)
 
 
