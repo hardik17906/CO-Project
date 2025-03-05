@@ -232,10 +232,9 @@ with open(output_file,"w") as Output_file_taken:
             source_register_1_=Dict_for_binary_to_register[source_register_1]
             source_register_2_=Dict_for_binary_to_register[source_register_2]
             destination_register_=Dict_for_binary_to_register[destination_register]
-
+            print(operation)
 
             # For ADD instruction
-            # print(operation)
             if operation=="ADD":
                 value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]+Dict_for_the_values_of_the_registers[source_register_2_]
                 if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
@@ -291,6 +290,7 @@ with open(output_file,"w") as Output_file_taken:
 
             # for registers in Dict_for_the_values_of_the_registers:
             #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            # Output_file_taken.write("\n")
 
             Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
 
@@ -300,8 +300,9 @@ with open(output_file,"w") as Output_file_taken:
 
 
     #    I-TYPE INSTRUCTION
-
+   
         elif Instruction_type=="ADDI":
+            print(Instruction_type)
             immediate_value=List_of_lines_of_the_input_file[i][0:12]  
             source_register_1=List_of_lines_of_the_input_file[i][12:17]  
             funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
@@ -317,7 +318,7 @@ with open(output_file,"w") as Output_file_taken:
                 sys.exit(1)
             source_register_1_=Dict_for_binary_to_register[source_register_1]
             destination_register_=Dict_for_binary_to_register[destination_register] 
-            print(immediate_value)                
+            # print(immediate_value)                
             Decimal_Value_of_immediate=twos_complement_to_decimal(immediate_value)
             value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate
             # print(Decimal_Value_of_immediate)
@@ -329,14 +330,20 @@ with open(output_file,"w") as Output_file_taken:
             Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
             i+=1
             program_counter+=4
+            # Output_file_taken.write(str(program_counter)+" ")
+
+            # for registers in Dict_for_the_values_of_the_registers:
+            #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            # Output_file_taken.write("\n")
+
             Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
 
             for registers in Dict_for_the_values_of_the_registers:
                 Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
             Output_file_taken.write("\n")
 
-
         elif Instruction_type=="JALR":
+            print(Instruction_type)
             immediate_value=List_of_lines_of_the_input_file[i][0:12]  
             source_register_1=List_of_lines_of_the_input_file[i][12:17]  
             funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
@@ -366,8 +373,10 @@ with open(output_file,"w") as Output_file_taken:
 
             # for registers in Dict_for_the_values_of_the_registers:
             #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            # Output_file_taken.write("\n")
 
             Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
             for registers in Dict_for_the_values_of_the_registers:
                 Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
             Output_file_taken.write("\n")
@@ -376,6 +385,7 @@ with open(output_file,"w") as Output_file_taken:
 
 
         elif Instruction_type=="LW":
+            print(Instruction_type)
             immediate_value=List_of_lines_of_the_input_file[i][0:12]  
             source_register_1=List_of_lines_of_the_input_file[i][12:17]  
             funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
@@ -393,7 +403,12 @@ with open(output_file,"w") as Output_file_taken:
             destination_register_=Dict_for_binary_to_register[destination_register]                 
             Decimal_Value_of_immediate=twos_complement_to_decimal(immediate_value)
             # print(decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate))
-            value_to_be_stored=dict_for_values_stored_in_memory_locations[decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate)]
+            memory_location_for_lw=decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate)
+            if memory_location_for_lw in dict_for_values_stored_in_memory_locations:        
+                value_to_be_stored=dict_for_values_stored_in_memory_locations[memory_location_for_lw]
+            else:
+                value_to_be_stored=0
+            
             if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
                 print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
                 sys.exit(1)
@@ -404,8 +419,8 @@ with open(output_file,"w") as Output_file_taken:
 
             # for registers in Dict_for_the_values_of_the_registers:
             #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
-        
-            
+            # Output_file_taken.write("\n")
+
             Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
 
             for registers in Dict_for_the_values_of_the_registers:
@@ -416,64 +431,117 @@ with open(output_file,"w") as Output_file_taken:
 
 
 
-
-
-
-
-
-
-
-
-
-
         # B-TYPE INSTRUCTION
         elif Instruction_type=="B-TYPE":
-            imm_0 = List_of_lines_of_the_input_file[i][0]
-            imm_2_7 = List_of_lines_of_the_input_file[i][1:7]
+            imm_1_6 = List_of_lines_of_the_input_file[i][1:7]
             rx2 = List_of_lines_of_the_input_file[i][7:12]
             rx1 = List_of_lines_of_the_input_file[i][12:17]
             funct3 = List_of_lines_of_the_input_file[i][17:20]
-            imm_8_11 = List_of_lines_of_the_input_file[i][20:24]
-            imm_1 = List_of_lines_of_the_input_file[i][24]
+            imm_7_10 = List_of_lines_of_the_input_file[i][20:24]
+            imm_0 = List_of_lines_of_the_input_file[i][24]
         
-            # final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11 + "0"
-            final_imm = imm_0 + imm_1 + imm_2_7 + imm_8_11 
+            final_imm = imm_0+imm_1_6+imm_7_10+"0"
             Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
         
             operation = dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
+            print(operation)
             rx1_ = Dict_for_binary_to_register[rx1]
             rx2_ = Dict_for_binary_to_register[rx2]
-        
+            # print(Decimal_Value_of_immediate)
             if operation == "BEQ":
                 if Dict_for_the_values_of_the_registers[rx1_] == Dict_for_the_values_of_the_registers[rx2_]:
-                    program_counter += Decimal_Value_of_immediate
-                    i = program_counter // 4
-                    continue
+                    if Decimal_Value_of_immediate==0:
+                        print("done")
+                        program_counter+=4
+                        Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+                        for registers in Dict_for_the_values_of_the_registers:
+                            Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+                        Output_file_taken.write("\n")
+                        break
+                    else:
+                        program_counter += Decimal_Value_of_immediate
+                        i = program_counter // 4
+                else:
+                    i+=1
+                    program_counter+=4
         
             elif operation == "BNE":
                 if Dict_for_the_values_of_the_registers[rx1_] != Dict_for_the_values_of_the_registers[rx2_]:
-                    program_counter += Decimal_Value_of_immediate
-                    i = program_counter // 4
-                    continue
-        
+                    if Decimal_Value_of_immediate==0:
+                        print("done")
+                        program_counter+=4
+
+                        Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+                        for registers in Dict_for_the_values_of_the_registers:
+                            Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+                        Output_file_taken.write("\n")
+                        break
+                    else:
+                        program_counter += Decimal_Value_of_immediate
+                        i = program_counter // 4
+                else:
+                    i+=1
+                    program_counter+=4
+
             elif operation == "BLT":
                 if Dict_for_the_values_of_the_registers[rx1_] < Dict_for_the_values_of_the_registers[rx2_]:
-                    program_counter += Decimal_Value_of_immediate
-                    i = program_counter // 4
-                    continue
-        
+                    if Decimal_Value_of_immediate==0:
+                        print("done")
+                        program_counter+=4
+
+                        Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+                        for registers in Dict_for_the_values_of_the_registers:
+                            Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+                        Output_file_taken.write("\n")
+                        break
+                    else:
+                        program_counter += Decimal_Value_of_immediate
+                        i = program_counter // 4
+                else:
+                    i+=1
+                    program_counter+=4
+
+
             elif operation == "BGE":
                 if Dict_for_the_values_of_the_registers[rx1_] >= Dict_for_the_values_of_the_registers[rx2_]:
-                    program_counter += Decimal_Value_of_immediate
-                    i = program_counter // 4
-                    continue
-        
+                    if Decimal_Value_of_immediate==0:
+                        print("done")
+                        program_counter+=4
+
+                        Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+                        for registers in Dict_for_the_values_of_the_registers:
+                            Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+                        Output_file_taken.write("\n")
+                        break
+                    else:
+                        program_counter += Decimal_Value_of_immediate
+                        i = program_counter // 4
+                else:
+                    i+=1
+                    program_counter+=4
+
             elif operation == "BLTU":
-        
                     continue
-        
-            i += 1
-            program_counter += 4
+            # Output_file_taken.write(str(program_counter)+" ")
+
+            # for registers in Dict_for_the_values_of_the_registers:
+            #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            # Output_file_taken.write("\n")
+
+            Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+            for registers in Dict_for_the_values_of_the_registers:
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            Output_file_taken.write("\n")
+            
+
+
+
+
         # S-TYPE INSTRUCTION
         elif Instruction_type=="S-TYPE":
             imm_0_6 = List_of_lines_of_the_input_file[i][0:7]
@@ -484,21 +552,37 @@ with open(output_file,"w") as Output_file_taken:
         
             final_imm = imm_0_6 + imm_7_11
             Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
-        
             operation = dictionary_for_funct_3_for_operations["S-TYPE"][funct3]
+            print(operation)
             rx1_ = Dict_for_binary_to_register[rx1]
             rx2_ = Dict_for_binary_to_register[rx2]
 
+            
+            if operation=="SW":
+                value_to_be_stored_in_the_memory_location=Dict_for_the_values_of_the_registers[rx2_]
+                memory_location_for_sw=decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[rx1_]+Decimal_Value_of_immediate)
+                if memory_location_for_sw in dict_for_values_stored_in_memory_locations:        
+                    dict_for_values_stored_in_memory_locations[memory_location_for_sw]=value_to_be_stored_in_the_memory_location
+            i+=1
+            program_counter+=4
+            # Output_file_taken.write(str(program_counter)+" ")
+
+            # for registers in Dict_for_the_values_of_the_registers:
+            #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            # Output_file_taken.write("\n")
+
+            Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+
+            for registers in Dict_for_the_values_of_the_registers:
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            Output_file_taken.write("\n")
 
 
+        # print(program_counter)
 
-        
-        print(program_counter)
-
-
+        print(i)
     for i in dict_for_values_stored_in_memory_locations:
         Output_file_taken.write(f"{i}:0b{decimal_to_32bit_binary(dict_for_values_stored_in_memory_locations[i])}\n")   
-
 
             
 
