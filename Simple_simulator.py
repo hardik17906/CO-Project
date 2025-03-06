@@ -459,8 +459,16 @@ with open(output_file,"w") as Output_file_taken:
         
             final_imm = imm_0+imm_1_6+imm_7_10+"0"
             # print(final_imm)
+            if rx2 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 2 is not valid.")
+                sys.exit(1) 
+            if funct3_for_this not in dictionary_for_funct_3_for_operations["B-TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the B-TYPE instructions.")
+                sys.exit(1)
+            if rx1 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+                sys.exit(1)
             Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
-        
             operation = dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
             print(operation)
             rx1_ = Dict_for_binary_to_register[rx1]
