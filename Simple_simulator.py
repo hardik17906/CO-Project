@@ -422,9 +422,10 @@ with open(output_file,"w") as Output_file_taken:
             memory_location_for_lw=decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate)
             if memory_location_for_lw in dict_for_values_stored_in_memory_locations:        
                 value_to_be_stored=dict_for_values_stored_in_memory_locations[memory_location_for_lw]
+            elif memory_location_for_lw in stack_memory:
+                value_to_be_stored=stack_memory[memory_location_for_lw]
             else:
-                value_to_be_stored=0
-            
+                print(f"There is error")
             if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
                 print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
                 sys.exit(1)
@@ -580,6 +581,10 @@ with open(output_file,"w") as Output_file_taken:
                 memory_location_for_sw=decimal_to_8bit_hex(Dict_for_the_values_of_the_registers[rx1_]+Decimal_Value_of_immediate)
                 if memory_location_for_sw in dict_for_values_stored_in_memory_locations:        
                     dict_for_values_stored_in_memory_locations[memory_location_for_sw]=value_to_be_stored_in_the_memory_location
+                elif memory_location_for_sw in stack_memory:
+                    stack_memory[memory_location_for_lw]=value_to_be_stored_in_the_memory_location
+                else:
+                    print("error")
             i+=1
             program_counter+=4
             # Output_file_taken.write(str(program_counter)+" ")
