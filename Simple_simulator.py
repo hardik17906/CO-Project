@@ -425,6 +425,8 @@ with open(output_file,"w") as Output_file_taken:
             elif memory_location_for_lw in stack_memory:
                 value_to_be_stored=stack_memory[memory_location_for_lw]
             else:
+                print(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate)
+                print(memory_location_for_lw)
                 print(f"There is error")
             if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
                 print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
@@ -456,13 +458,14 @@ with open(output_file,"w") as Output_file_taken:
             funct3 = List_of_lines_of_the_input_file[i][17:20]
             imm_7_10 = List_of_lines_of_the_input_file[i][20:24]
             imm_0 = List_of_lines_of_the_input_file[i][24]
+            print(funct3)
         
             final_imm = imm_0+imm_1_6+imm_7_10+"0"
             # print(final_imm)
             if rx2 not in Dict_for_binary_to_register:
                 print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 2 is not valid.")
                 sys.exit(1) 
-            if funct3_for_this not in dictionary_for_funct_3_for_operations["B-TYPE"]:
+            if funct3 not in dictionary_for_funct_3_for_operations["B-TYPE"]:
                 print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the B-TYPE instructions.")
                 sys.exit(1)
             if rx1 not in Dict_for_binary_to_register:
@@ -653,4 +656,4 @@ with open(output_file,"w") as Output_file_taken:
     for i in dict_for_values_stored_in_memory_locations:
         Output_file_taken.write(f"{i}:0b{decimal_to_32bit_binary(dict_for_values_stored_in_memory_locations[i])}\n")   
 
-            
+    
