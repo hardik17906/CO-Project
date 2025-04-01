@@ -51,26 +51,55 @@ dictionary_fro_line_number_of_label={}
 #  Making a list of all the given instructions in the input file 
 with open(input_file,"r") as Input_file_taken:
     List_of_lines_of_input_file=Input_file_taken.readlines()
-for i in range(len(List_of_lines_of_input_file)-1,-1,-1):
-      if List_of_lines_of_input_file[i].strip()=="":
-            continue
-      else:
-            break
-Temp_for_virtual_error_checker=List_of_lines_of_input_file[i].split(":")
-# print(Temp_for_virtual_error_checker)
-if len(Temp_for_virtual_error_checker)==2:
-    if f"beq zero,zero,{Temp_for_virtual_error_checker[0].strip()}" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,0" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,-0" not in Temp_for_virtual_error_checker[1].strip() :
-        print("ERROR : Virtual Hault Instruction missing ")
-        sys.exit(1)
-elif len(Temp_for_virtual_error_checker)==1:
-    if "beq zero,zero,0" not in Temp_for_virtual_error_checker[0].strip() and "beq zero,zero,-0" not in Temp_for_virtual_error_checker[0].strip():
-        print("ERROR : Virtual Hault Instruction missing ")
-        sys.exit(1)
+Done_Hault=0
+for i in range(0,len(List_of_lines_of_input_file)):
+        if List_of_lines_of_input_file[i].strip()=="" :
+            continue   
+        List_after_colon_separated=List_of_lines_of_input_file[i].split(":")
+        List_after_colon_separated_for_further=List_after_colon_separated[len(List_after_colon_separated)-1].strip(" ")
+        # print(List_after_colon_separated_for_further)
+        List_after_space_separated=(List_after_colon_separated_for_further.strip()).split(" ")
+        List_for_next=List_after_space_separated[1:]
+        List_after_space_separated=[List_after_space_separated[0],"".join(List_for_next)]
+        # List_after_comma_separated=List_after_space_separated[1].split(",")
+        # List_after_comma_separated=[i.strip() for i in List_after_comma_separated]
+        if List_after_space_separated[0]!="beq":
+              continue
+        if len(List_after_colon_separated)==2:
+            final_string_ready=List_after_colon_separated[0]+":"+List_after_space_separated[0]+" "+List_after_space_separated[1]
+            if "zero,zero,0" or f"zero,zero,{List_after_colon_separated[0]}" or "zero,zero,-0" in List_after_space_separated[1]:
+                  Done_Hault=1
+                  break
+        elif len(List_after_colon_separated)==1:
+              final_string_ready=List_after_space_separated[0]+" "+List_after_space_separated[1]
+              if "zero,zero,0" in List_after_space_separated[1]:
+                    Done_Hault=1
+                    break   
+
+if Done_Hault==0:
+      print("ERROR : Virtual Hault Instruction missing ")
+      sys.exit(1)
+
+# # for i in range(len(List_of_lines_of_input_file)-1,-1,-1):
+# #       if List_of_lines_of_input_file[i].strip()=="":
+# #             continue
+# #       else:
+# #             break
+# # Temp_for_virtual_error_checker=List_of_lines_of_input_file[i].split(":")
+# # # print(Temp_for_virtual_error_checker)
+# # if len(Temp_for_virtual_error_checker)==2:
+# #     if f"beq zero,zero,{Temp_for_virtual_error_checker[0].strip()}" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,0" not in Temp_for_virtual_error_checker[1].strip() and "beq zero,zero,-0" not in Temp_for_virtual_error_checker[1].strip() :
+# #         print("ERROR : Virtual Hault Instruction missing ")
+# #         sys.exit(1)
+# # elif len(Temp_for_virtual_error_checker)==1:
+# #     if "beq zero,zero,0" not in Temp_for_virtual_error_checker[0].strip() and "beq zero,zero,-0" not in Temp_for_virtual_error_checker[0].strip():
+# #         print("ERROR : Virtual Hault Instruction missing ")
+# #         sys.exit(1)
             
         
-# if "beq zero,zero" not in List_of_lines_of_input_file[-1].strip()  :
-#       print("ERROR : Virtual Hault Instruction missing ")
-#       sys.exit(1)
+# # if "beq zero,zero" not in List_of_lines_of_input_file[-1].strip()  :
+# #       print("ERROR : Virtual Hault Instruction missing ")
+# #       sys.exit(1)
 stop=0
 for i in range(len(List_of_lines_of_input_file)):
         if List_of_lines_of_input_file[i].strip()=="" :
@@ -109,6 +138,7 @@ with open(output_file,"w") as Output_file_taken:
         List_after_space_separated=[List_after_space_separated[0],"".join(List_for_next)]
         List_after_comma_separated=List_after_space_separated[1].split(",")
         List_after_comma_separated=[i.strip() for i in List_after_comma_separated]
+        # print(List_after_comma_separated)
         # print(List_after_space_separated)
         # print(List_after_comma_separated)
         
@@ -748,6 +778,6 @@ with open(output_file,"w") as Output_file_taken:
 
 
 if Done ==1 :
-      print(f"Encoding For all the given instructions have been done and Their has been written to {output_file}.\nThanks BYE !")
+      print(f"Encoding For all the given instructions have been done and Their encoding has been written to {output_file}.\nThanks BYE !")
       
       
