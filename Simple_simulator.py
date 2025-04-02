@@ -243,7 +243,7 @@ with open(output_file,"w") as Output_file_taken:
             source_register_1_=Dict_for_binary_to_register[source_register_1]
             source_register_2_=Dict_for_binary_to_register[source_register_2]
             destination_register_=Dict_for_binary_to_register[destination_register]
-            print(operation)
+            # print(operation)
             if destination_register_=="x0":
                 pass
             # For ADD instruction
@@ -313,7 +313,7 @@ with open(output_file,"w") as Output_file_taken:
     #    I-TYPE INSTRUCTION
    
         elif Instruction_type=="ADDI":
-            print(Instruction_type)
+            # print(Instruction_type)
             immediate_value=List_of_lines_of_the_input_file[i][0:12]  
             source_register_1=List_of_lines_of_the_input_file[i][12:17]  
             funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
@@ -361,7 +361,7 @@ with open(output_file,"w") as Output_file_taken:
             Output_file_taken.write("\n")  
 
         elif Instruction_type=="JALR":
-            print(Instruction_type)
+            # print(Instruction_type)
             immediate_value=List_of_lines_of_the_input_file[i][0:12]  
             source_register_1=List_of_lines_of_the_input_file[i][12:17]  
             funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
@@ -409,7 +409,7 @@ with open(output_file,"w") as Output_file_taken:
 
 
         elif Instruction_type=="LW":
-            print(Instruction_type)
+            # print(Instruction_type)
             immediate_value=List_of_lines_of_the_input_file[i][0:12]  
             source_register_1=List_of_lines_of_the_input_file[i][12:17]  
             funct3_for_this=List_of_lines_of_the_input_file[i][17:20]  
@@ -479,7 +479,7 @@ with open(output_file,"w") as Output_file_taken:
                 sys.exit(1)
             Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
             operation = dictionary_for_funct_3_for_operations["B-TYPE"][funct3]
-            print(operation)
+            # print(operation)
             rx1_ = Dict_for_binary_to_register[rx1]
             rx2_ = Dict_for_binary_to_register[rx2]
             # print(Decimal_Value_of_immediate)
@@ -611,7 +611,7 @@ with open(output_file,"w") as Output_file_taken:
             final_imm = imm_0_6 + imm_7_11
             Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
             operation = dictionary_for_funct_3_for_operations["S-TYPE"][funct3]
-            print(operation)
+            # print(operation)
             rx1_ = Dict_for_binary_to_register[rx1]
             rx2_ = Dict_for_binary_to_register[rx2]
 
@@ -645,7 +645,7 @@ with open(output_file,"w") as Output_file_taken:
 #   J -TYPE INSTRUCTIONS
         elif Instruction_type=="J-TYPE":
             operation="JAL"
-            print(operation)
+            # print(operation)
             # imm_0=List_of_lines_of_the_input_file[i][0]
             imm_10_19=List_of_lines_of_the_input_file[i][1:11]
             imm_9=List_of_lines_of_the_input_file[i][11]
