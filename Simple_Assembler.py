@@ -679,7 +679,7 @@ with open(output_file,"w") as Output_file_taken:
                         if immi in dictionary_fro_line_number_of_label:
                               offset=dictionary_fro_line_number_of_label[immi]
                               immi=(offset-i)*4
-                              print(immi)
+                            #   print(immi)
 
                         else :
                               print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
@@ -774,8 +774,6 @@ with open(output_file,"w") as Output_file_taken:
         
         if i==len(List_of_lines_of_input_file)-1:
               Done=1
-
-
 
 if Done ==1 :
       print(f"Encoding For all the given instructions have been done and Their encoding has been written to {output_file}.\nThanks BYE !")
