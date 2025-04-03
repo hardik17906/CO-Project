@@ -55,6 +55,9 @@ Done_Hault=0
 for i in range(0,len(List_of_lines_of_input_file)):
         if List_of_lines_of_input_file[i].strip()=="" :
             continue   
+        if List_of_lines_of_input_file[i].strip()=="halt":
+              Done_Hault=1
+              break
         List_after_colon_separated=List_of_lines_of_input_file[i].split(":")
         List_after_colon_separated_for_further=List_after_colon_separated[len(List_after_colon_separated)-1].strip(" ")
         # print(List_after_colon_separated_for_further)
@@ -765,6 +768,31 @@ with open(output_file,"w") as Output_file_taken:
                     # print(imm_in_binary)
                     opcode_for_jal="1101111" 
                     Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[10:20]}{imm_in_binary[9]}{imm_in_binary[1:9]}{Register_map_with_their_binary_values[rd]}{opcode_for_jal}\n")
+
+     # FOR BONUS INSTRUCTIONS
+        elif List_after_space_separated[0] == "rst":
+            if len(List_after_comma_separated) != 1 or List_after_comma_separated[0] != "":
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}\n'rst' takes no operands.")
+                break
+            opcode_for_rst = "1111011"
+            funct3_for_rst = "000"
+            imm_for_rst = "000000000000"
+            rs1_for_rst = "00000"
+            rd_for_rst = "00000"
+            Output_file_taken.write(f"{imm_for_rst}{rs1_for_rst}{funct3_for_rst}{rd_for_rst}{opcode_for_rst}\n")
+
+        elif List_after_space_separated[0] == "halt":
+            if len(List_after_comma_separated) != 1 or List_after_comma_separated[0] != "":
+                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}\n'halt' takes no operands.")
+                break
+            opcode_for_halt = "1111011"
+            funct3_for_halt = "001"
+            imm_for_halt = "000000000000"
+            rs1_for_halt = "00000"
+            rd_for_halt = "00000"
+            Output_file_taken.write(f"{imm_for_halt}{rs1_for_halt}{funct3_for_halt}{rd_for_halt}{opcode_for_halt}\n")
+
+       
 
 #  NOT A VALID INSTRUCTION
 
