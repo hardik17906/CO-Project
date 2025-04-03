@@ -123,7 +123,7 @@ Dict_for_same_registers = {
 
 
 # making dictionary for opcodes for different operations
-dictionary_for_opcode_for_operations = {"0110011":"R-TYPE","0010011":"ADDI","0000011":"LW","1100111":"JALR","0100011":"S-TYPE","1100011":"B-TYPE","1101111":"J-TYPE"}
+dictionary_for_opcode_for_operations = {"0110011":"R-TYPE","0010011":"ADDI","0000011":"LW","1100111":"JALR","0100011":"S-TYPE","1100011":"B-TYPE","1101111":"J-TYPE","1111011":"BONUS_TYPE"}
 
 #dictionary for the funct3 
 dictionary_for_funct_3_for_operations={
@@ -166,6 +166,10 @@ dictionary_for_funct_3_for_operations={
     },
     "J-TYPE":{
         "000":"JAL"
+    },
+    "BONUS_TYPE":{
+        "000":"RST",
+        "001":"HALT"
     }
 }
 
@@ -715,8 +719,33 @@ with open(output_file,"w") as Output_file_taken:
             for registers in Dict_for_the_values_of_the_registers:
                 Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
             Output_file_taken.write("\n")  
+        
 
-
+# BONUS PART
+        elif Instruction_type == "BONUS_TYPE":
+            funct3_for_this = List_of_lines_of_the_input_file[i][17:20]
+            if funct3_for_this not in dictionary_for_funct_3_for_operations["BONUS_TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any BONUS_TYPE instructions.")
+                sys.exit(1)
+            operation = dictionary_for_funct_3_for_operations["BONUS_TYPE"][funct3_for_this]
+            
+            if operation == "RST":
+                for reg in Dict_for_the_values_of_the_registers:
+                    if reg != "x0": 
+                        Dict_for_the_values_of_the_registers[reg] = 0
+                i+= 1
+                program_counter += 4
+            
+            elif operation == "HALT":
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+                for registers in Dict_for_the_values_of_the_registers:
+                    Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+                Output_file_taken.write("\n")
+                break 
+            Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+            for registers in Dict_for_the_values_of_the_registers:
+                Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            Output_file_taken.write("\n")
         # print(program_counter)
         # print(i)
     # for i in dict_for_values_stored_in_memory_locations:
