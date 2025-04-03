@@ -276,9 +276,9 @@ with open(output_file,"w") as Output_file_taken:
             elif operation=="OR":
                 Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(or_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
 
-            elif operation=="XOR":
-                # print(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
-                Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+            # elif operation=="XOR":
+            #     # print(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+            #     Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
 
             elif operation=="SLL":
                 value_of_rs2 = Dict_for_the_values_of_the_registers[source_register_2_] & 0x1F 
@@ -551,62 +551,62 @@ with open(output_file,"w") as Output_file_taken:
                     i+=1
                     program_counter+=4
 
-            elif operation == "BLT":
-                if Dict_for_the_values_of_the_registers[rx1_] < Dict_for_the_values_of_the_registers[rx2_]:
-                    if Decimal_Value_of_immediate==0:
-                        print("done")
-                        program_counter+=4
+            # elif operation == "BLT":
+            #     if Dict_for_the_values_of_the_registers[rx1_] < Dict_for_the_values_of_the_registers[rx2_]:
+            #         if Decimal_Value_of_immediate==0:
+            #             print("done")
+            #             program_counter+=4
 
-                        # Output_file_taken.write(str(program_counter)+" ")
+            #             # Output_file_taken.write(str(program_counter)+" ")
 
-                        # for registers in Dict_for_the_values_of_the_registers:
-                        #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
-                        # Output_file_taken.write("\n")
+            #             # for registers in Dict_for_the_values_of_the_registers:
+            #             #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            #             # Output_file_taken.write("\n")
 
-                        Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+            #             Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
 
-                        for registers in Dict_for_the_values_of_the_registers:
-                            Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
-                        Output_file_taken.write("\n")   
-                        break
-                    else:
-                        if (program_counter+Decimal_Value_of_immediate) < 0:
-                            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
-                            sys.exit(1)
-                        program_counter += Decimal_Value_of_immediate
-                        i = program_counter // 4
-                else:
-                    i+=1
-                    program_counter+=4
+            #             for registers in Dict_for_the_values_of_the_registers:
+            #                 Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            #             Output_file_taken.write("\n")   
+            #             break
+            #         else:
+            #             if (program_counter+Decimal_Value_of_immediate) < 0:
+            #                 print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+            #                 sys.exit(1)
+            #             program_counter += Decimal_Value_of_immediate
+            #             i = program_counter // 4
+            #     else:
+            #         i+=1
+            #         program_counter+=4
 
 
-            elif operation == "BGE":
-                if Dict_for_the_values_of_the_registers[rx1_] >= Dict_for_the_values_of_the_registers[rx2_]:
-                    if Decimal_Value_of_immediate==0:
-                        print("done")
-                        program_counter+=4
+            # elif operation == "BGE":
+            #     if Dict_for_the_values_of_the_registers[rx1_] >= Dict_for_the_values_of_the_registers[rx2_]:
+            #         if Decimal_Value_of_immediate==0:
+            #             print("done")
+            #             program_counter+=4
 
-                        # Output_file_taken.write(str(program_counter)+" ")
+            #             # Output_file_taken.write(str(program_counter)+" ")
 
-                        # for registers in Dict_for_the_values_of_the_registers:
-                        #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
-                        # Output_file_taken.write("\n")
+            #             # for registers in Dict_for_the_values_of_the_registers:
+            #             #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
+            #             # Output_file_taken.write("\n")
 
-                        Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
+            #             Output_file_taken.write(f"0b{decimal_to_32bit_binary(program_counter)} ")
 
-                        for registers in Dict_for_the_values_of_the_registers:
-                            Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
-                        Output_file_taken.write("\n")  
-                        break
-                    else:
-                        if (program_counter+Decimal_Value_of_immediate) < 0:
-                            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
-                            sys.exit(1)
-                        program_counter += Decimal_Value_of_immediate
-                        i = program_counter // 4
-                else:
-                    i+=1
-                    program_counter+=4
+            #             for registers in Dict_for_the_values_of_the_registers:
+            #                 Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
+            #             Output_file_taken.write("\n")  
+            #             break
+            #         else:
+            #             if (program_counter+Decimal_Value_of_immediate) < 0:
+            #                 print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+            #                 sys.exit(1)
+            #             program_counter += Decimal_Value_of_immediate
+            #             i = program_counter // 4
+            #     else:
+            #         i+=1
+            #         program_counter+=4
 
             # Output_file_taken.write(str(program_counter)+" ")
 
