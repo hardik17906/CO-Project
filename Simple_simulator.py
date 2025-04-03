@@ -1,9 +1,9 @@
 # We are making a Simulator for RISC v architecture
 import sys
 
-if len(sys.argv)!=3 :
-    print("The Format of the input should be: python <Simulator_File_Name> <Input_file_name> <Output_file_name>")
-    sys.exit(1)    # To exit out of the this sys
+# if len(sys.argv)!=3 :
+#     print("The Format of the input should be: python <Simulator_File_Name> <Input_file_name> <Output_file_name>")
+#     sys.exit(1)    # To exit out of the this sys
 
 input_file=sys.argv[1]   # loading name of input txt file in input_file
 output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
@@ -12,7 +12,7 @@ output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
 # Function for conversion  of decimal to binary
 def decimal_to_32bit_binary(value):
     value=int(value)
-    if value < -2**31 or value >= 2**31:
+    if value < -((2**31)) or value >= (2**31):
         return "Error"
     return format(value & 0xFFFFFFFF, '032b')
 
@@ -74,7 +74,7 @@ def decimal_to_8bit_hex(value):
         value = (1 << 32) + value  
     return f'0x{value:08X}'  
 
-# As said in the instructions that we have to initialize all the registers to zero
+# As said in the instructions that we have to initialize all the registers to zero except x2 whihc is to be initialized as 380
 # so making a dictionary for the value of the regsiters
 Dict_for_the_values_of_the_registers = {
     "x0": 0, "x1": 0, "x2": 380, "x3": 0, "x4": 0, "x5": 0, "x6": 0, "x7": 0, 
@@ -83,6 +83,8 @@ Dict_for_the_values_of_the_registers = {
     "x24": 0, "x25": 0, "x26": 0, "x27": 0, "x28": 0, "x29": 0, "x30": 0, "x31": 0
 }
 # stack memory
+#  as per the given memory locations
+#  initiliazed as 0
 stack_memory = {
     "0x00000100": 0, "0x00000104": 0, "0x00000108": 0, "0x0000010C": 0,
     "0x00000110": 0, "0x00000114": 0, "0x00000118": 0, "0x0000011C": 0,
@@ -129,7 +131,6 @@ dictionary_for_funct_3_for_operations={
         "000":"ADD_SUB_MUL",
         "111":"AND",
         "110":"OR",
-        "100":"XOR",
         "001":"SLL",
         "101":"SRL",
         "010":"SLT",
@@ -212,7 +213,7 @@ with open(output_file,"w") as Output_file_taken:
         if binary_for_the_opcode not in dictionary_for_opcode_for_operations:
             print(f"There is an error in the line number {i+1} :{List_of_lines_of_the_input_file[i]}.\nError: Opcode given for this line is invald.")
             sys.exit(1)
-        Instruction_type=dictionary_for_opcode_for_operations[binary_for_the_opcode] # TAKING OUT OPCODE FROM 32 BIT INFO
+        Instruction_type=dictionary_for_opcode_for_operations[binary_for_the_opcode] # TAKING OUT OPCODE (instruction type) FROM 32 BIT INFO
 
     #  for R -TYPE INSTRUCTIONS
         if Instruction_type=="R-TYPE":
@@ -249,7 +250,7 @@ with open(output_file,"w") as Output_file_taken:
             # For ADD instruction
             elif operation=="ADD":
                 value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]+Dict_for_the_values_of_the_registers[source_register_2_]
-                if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                if value_to_be_stored < -((2**31)) or value_to_be_stored >= (2**31):
                     print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
                     sys.exit(1)
                 Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
@@ -257,36 +258,47 @@ with open(output_file,"w") as Output_file_taken:
             #  for Sub instruction
             elif operation=="SUB":
                 value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]-Dict_for_the_values_of_the_registers[source_register_2_]
-                if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                if value_to_be_stored < -((2**31)) or value_to_be_stored >= (2**31):
                     print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
                     sys.exit(1)
                 Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
 
             elif operation=="MUL":
                 value_to_be_stored=Dict_for_the_values_of_the_registers[source_register_1_]*Dict_for_the_values_of_the_registers[source_register_2_]
-                if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                if value_to_be_stored < -(2**31) or value_to_be_stored >= (2**31):
                     print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
                     sys.exit(1)
                 Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
 
             elif operation=="AND":
                 Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(and_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+
             elif operation=="OR":
                 Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(or_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+
             elif operation=="XOR":
                 # print(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
                 Dict_for_the_values_of_the_registers[destination_register_]=twos_complement_to_decimal(xor_for_two_registers(decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_1_]),decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[source_register_2_])))
+
             elif operation=="SLL":
-                value_of_rs2=Dict_for_the_values_of_the_registers[source_register_2_]
-                value_of_rs2=value_of_rs2%32
-                value_to_be_stored=((Dict_for_the_values_of_the_registers[source_register_1_]) << value_of_rs2) & 0xFFFFFFFF
+                value_of_rs2 = Dict_for_the_values_of_the_registers[source_register_2_] & 0x1F 
+                value_of_rs1 = Dict_for_the_values_of_the_registers[source_register_1_] & 0xFFFFFFFF  
+                value_to_be_stored = (value_of_rs1 << value_of_rs2) & 0xFFFFFFFF  
+                if value_to_be_stored < -((2**31)) or value_to_be_stored >= (2**31):
+                    print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
+                    sys.exit(1) 
                 Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
 
             elif operation=="SRL":
-                value_of_rs2=Dict_for_the_values_of_the_registers[source_register_2_]
-                value_of_rs2=value_of_rs2%32
-                value_to_be_stored = ((Dict_for_the_values_of_the_registers[source_register_1_]) >> value_of_rs2) & 0xFFFFFFFF
+                value_of_rs2 = Dict_for_the_values_of_the_registers[source_register_2_] & 0x1F 
+                value_of_rs1 = Dict_for_the_values_of_the_registers[source_register_1_] & 0xFFFFFFFF  
+                value_to_be_stored = (value_of_rs1 >> value_of_rs2) & 0xFFFFFFFF  
+                if value_to_be_stored < -((2**31)) or value_to_be_stored >= (2**31):
+                    print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
+                    sys.exit(1) 
                 Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
+
+
             elif operation=="SLT":
                 if Dict_for_the_values_of_the_registers[source_register_1_]<Dict_for_the_values_of_the_registers[source_register_2_]:
                     Dict_for_the_values_of_the_registers[destination_register_]=1
@@ -332,7 +344,6 @@ with open(output_file,"w") as Output_file_taken:
             # print(Dict_for_binary_to_register[destination_register])
             destination_register_=Dict_for_binary_to_register[destination_register]
             if destination_register_!="x0":
-
                 # print(immediate_value)                
                 Decimal_Value_of_immediate=twos_complement_to_decimal(immediate_value)
                 # print(source_register_1_)
@@ -342,7 +353,7 @@ with open(output_file,"w") as Output_file_taken:
                 # print(Decimal_Value_of_immediate)
                 # print(Dict_for_the_values_of_the_registers[source_register_1_])
                 # print(value_to_be_stored)
-                if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                if value_to_be_stored < -(2**31) or value_to_be_stored >= (2**31):
                     print(f"Line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
                     sys.exit(1)
                 Dict_for_the_values_of_the_registers[destination_register_]=value_to_be_stored
@@ -391,6 +402,10 @@ with open(output_file,"w") as Output_file_taken:
             if (new_value_for_program_counter)%4!=0:
                 print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a multiple of 4.So this is an error.")
                 sys.exit(1)
+            if new_value_for_program_counter<0:
+                print(new_value_for_program_counter)
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+                sys.exit(1)      
             program_counter=new_value_for_program_counter
             i=program_counter//4
             # Output_file_taken.write(str(program_counter)+" ")
@@ -404,7 +419,6 @@ with open(output_file,"w") as Output_file_taken:
             for registers in Dict_for_the_values_of_the_registers:
                 Output_file_taken.write(f"0b{decimal_to_32bit_binary(Dict_for_the_values_of_the_registers[registers])} ")
             Output_file_taken.write("\n")  
-
 
 
 
@@ -435,8 +449,9 @@ with open(output_file,"w") as Output_file_taken:
             else:
                 print(Dict_for_the_values_of_the_registers[source_register_1_]+Decimal_Value_of_immediate)
                 print(memory_location_for_lw)
-                print(f"There is error")
-            if value_to_be_stored < -2**31 or value_to_be_stored >= 2**31:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Memory location we got is invalid.")
+                sys.exit(1)
+            if value_to_be_stored < -(2**31) or value_to_be_stored >= (2**31):
                 print(f"Line number {i} : {List_of_lines_of_the_input_file[i]}.\nWe can't proceed further because the value to be stored in the destination register cannot be converted into 32 bit.")
                 sys.exit(1)
             if destination_register_!="x0":
@@ -486,9 +501,8 @@ with open(output_file,"w") as Output_file_taken:
             if operation == "BEQ":
                 if Dict_for_the_values_of_the_registers[rx1_] == Dict_for_the_values_of_the_registers[rx2_]:
                     if Decimal_Value_of_immediate==0:
-                        print("done")
+                        print("Done")
                         # Output_file_taken.write(str(program_counter)+" ")
-
                         # for registers in Dict_for_the_values_of_the_registers:
                         #     Output_file_taken.write(f"{Dict_for_the_values_of_the_registers[registers]} ")
                         # Output_file_taken.write("\n")
@@ -500,6 +514,9 @@ with open(output_file,"w") as Output_file_taken:
                         Output_file_taken.write("\n")  
                         break
                     else:
+                        if (program_counter+Decimal_Value_of_immediate) < 0:
+                            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+                            sys.exit(1)
                         program_counter += Decimal_Value_of_immediate
                         i = program_counter // 4
                 else:
@@ -525,6 +542,9 @@ with open(output_file,"w") as Output_file_taken:
                         Output_file_taken.write("\n")  
                         break
                     else:
+                        if (program_counter+Decimal_Value_of_immediate) < 0:
+                            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+                            sys.exit(1)
                         program_counter += Decimal_Value_of_immediate
                         i = program_counter // 4
                 else:
@@ -550,6 +570,9 @@ with open(output_file,"w") as Output_file_taken:
                         Output_file_taken.write("\n")   
                         break
                     else:
+                        if (program_counter+Decimal_Value_of_immediate) < 0:
+                            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+                            sys.exit(1)
                         program_counter += Decimal_Value_of_immediate
                         i = program_counter // 4
                 else:
@@ -576,14 +599,15 @@ with open(output_file,"w") as Output_file_taken:
                         Output_file_taken.write("\n")  
                         break
                     else:
+                        if (program_counter+Decimal_Value_of_immediate) < 0:
+                            print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+                            sys.exit(1)
                         program_counter += Decimal_Value_of_immediate
                         i = program_counter // 4
                 else:
                     i+=1
                     program_counter+=4
 
-            elif operation == "BLTU":
-                    continue
             # Output_file_taken.write(str(program_counter)+" ")
 
             # for registers in Dict_for_the_values_of_the_registers:
@@ -598,8 +622,6 @@ with open(output_file,"w") as Output_file_taken:
             
 
 
-
-
         # S-TYPE INSTRUCTION
         elif Instruction_type=="S-TYPE":
             imm_0_6 = List_of_lines_of_the_input_file[i][0:7]
@@ -607,7 +629,15 @@ with open(output_file,"w") as Output_file_taken:
             rx1 = List_of_lines_of_the_input_file[i][12:17]
             funct3 = List_of_lines_of_the_input_file[i][17:20]
             imm_7_11 = List_of_lines_of_the_input_file[i][20:25]
-        
+            if rx2 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 2 is not valid.")
+                sys.exit(1) 
+            if rx1 not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for source register 1 is not valid.")
+                sys.exit(1)
+            if funct3 not in dictionary_for_funct_3_for_operations["S-TYPE"]:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Funct3 is not matching with any of the B-TYPE instructions.")
+                sys.exit(1)
             final_imm = imm_0_6 + imm_7_11
             Decimal_Value_of_immediate = twos_complement_to_decimal(final_imm)
             operation = dictionary_for_funct_3_for_operations["S-TYPE"][funct3]
@@ -624,7 +654,9 @@ with open(output_file,"w") as Output_file_taken:
                 elif memory_location_for_sw in stack_memory:
                     stack_memory[memory_location_for_sw]=value_to_be_stored_in_the_memory_location
                 else:
-                    print("error")
+                    print(memory_location_for_sw)
+                    print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Memory location we got is invalid.")
+                    sys.exit(1)
             i+=1
             program_counter+=4
             # Output_file_taken.write(str(program_counter)+" ")
@@ -651,6 +683,9 @@ with open(output_file,"w") as Output_file_taken:
             imm_9=List_of_lines_of_the_input_file[i][11]
             imm_1_8=List_of_lines_of_the_input_file[i][12:20]
             destination_register=List_of_lines_of_the_input_file[i][20:25]
+            if destination_register not in Dict_for_binary_to_register:
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError: Given binary for Destination register is not valid.")
+                sys.exit(1)
             destination_register_=Dict_for_binary_to_register[destination_register]
             final_imm=imm_1_8+imm_9+imm_10_19+"0"
             Decimal_Value_of_immediate=twos_complement_to_decimal(final_imm)
@@ -659,13 +694,16 @@ with open(output_file,"w") as Output_file_taken:
                 Dict_for_the_values_of_the_registers[destination_register_]=memory_to_be_stored_inside_the_destination_regsiter
             new_value_for_program_counter=Decimal_Value_of_immediate+program_counter
             if (new_value_for_program_counter)%4!=0:
-                # print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a multiple of 4.So this is an error.")
-                # sys.exit(1)
-                program_counter+=4
-                i+=1
-            else:
-                program_counter=new_value_for_program_counter
-                i=program_counter//4 
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a multiple of 4.So this is an error.")
+                sys.exit(1)
+                # program_counter+=4
+                # i+=1
+            if new_value_for_program_counter<0:
+                print(new_value_for_program_counter)
+                print(f"There is an error in the line number {i+1} : {List_of_lines_of_the_input_file[i]}.\nError : PC is no more a positive number.So this is an error.")
+                sys.exit(1)
+            program_counter=new_value_for_program_counter
+            i=program_counter//4
             # Output_file_taken.write(str(program_counter)+" ")
 
             # for registers in Dict_for_the_values_of_the_registers:
@@ -686,4 +724,4 @@ with open(output_file,"w") as Output_file_taken:
 
 
     for i in dict_for_values_stored_in_memory_locations:
-        Output_file_taken.write(f"{i}:0b{decimal_to_32bit_binary(dict_for_values_stored_in_memory_locations[i])}\n")   
+        Output_file_taken.write(f"{i}:0b{decimal_to_32bit_binary(dict_for_values_stored_in_memory_locations[i])}\n")
