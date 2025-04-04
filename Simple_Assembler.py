@@ -214,21 +214,21 @@ with open(output_file,"w") as Output_file_taken:
             # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
             Output_file_taken.write(f"{funct7_for_or}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_or}{Register_map_with_their_binary_values[rd]}{opcode_for_or}\n")
 
-        elif List_after_space_separated[0]=="xor":
-            if len(List_after_comma_separated)!=3 :
-                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                break
-            rd=List_after_comma_separated[0]
-            rx1=List_after_comma_separated[1]
-            rx2=List_after_comma_separated[2]
-            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
-                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                  break
-            opcode_for_xor="0110011"
-            funct7_for_xor="0000000"
-            funct3_for_xor="100"
-            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
-            Output_file_taken.write(f"{funct7_for_xor}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_xor}{Register_map_with_their_binary_values[rd]}{opcode_for_xor}\n")
+        # elif List_after_space_separated[0]=="xor":
+        #     if len(List_after_comma_separated)!=3 :
+        #         print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #         break
+        #     rd=List_after_comma_separated[0]
+        #     rx1=List_after_comma_separated[1]
+        #     rx2=List_after_comma_separated[2]
+        #     if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+        #           print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #           break
+        #     opcode_for_xor="0110011"
+        #     funct7_for_xor="0000000"
+        #     funct3_for_xor="100"
+        #     # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+        #     Output_file_taken.write(f"{funct7_for_xor}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_xor}{Register_map_with_their_binary_values[rd]}{opcode_for_xor}\n")
 
 
         elif List_after_space_separated[0]=="sll":
@@ -265,21 +265,21 @@ with open(output_file,"w") as Output_file_taken:
             Output_file_taken.write(f"{funct7_for_srl}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_srl}{Register_map_with_their_binary_values[rd]}{opcode_for_srl}\n")
 
 
-        elif List_after_space_separated[0]=="sra":
-            if len(List_after_comma_separated)!=3 :
-                print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                break
-            rd=List_after_comma_separated[0]
-            rx1=List_after_comma_separated[1]
-            rx2=List_after_comma_separated[2]
-            if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
-                  print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                  break
-            opcode_for_sra="0110011"
-            funct7_for_sra="0100000"
-            funct3_for_sra="101"
-            # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
-            Output_file_taken.write(f"{funct7_for_sra}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sra}{Register_map_with_their_binary_values[rd]}{opcode_for_sra}\n")
+        # elif List_after_space_separated[0]=="sra":
+        #     if len(List_after_comma_separated)!=3 :
+        #         print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #         break
+        #     rd=List_after_comma_separated[0]
+        #     rx1=List_after_comma_separated[1]
+        #     rx2=List_after_comma_separated[2]
+        #     if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+        #           print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #           break
+        #     opcode_for_sra="0110011"
+        #     funct7_for_sra="0100000"
+        #     funct3_for_sra="101"
+        #     # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+        #     Output_file_taken.write(f"{funct7_for_sra}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sra}{Register_map_with_their_binary_values[rd]}{opcode_for_sra}\n")
 
         elif List_after_space_separated[0]=="slt":
             if len(List_after_comma_separated)!=3 :
@@ -331,21 +331,21 @@ with open(output_file,"w") as Output_file_taken:
                     Output_file_taken.write(f"{funct7_for_mul}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_mul}{Register_map_with_their_binary_values[rd]}{opcode_for_mul}\n")
 
 
-        elif List_after_space_separated[0]=="sltu":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rd=List_after_comma_separated[0]
-                    rx1=List_after_comma_separated[1]
-                    rx2=List_after_comma_separated[2]
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    opcode_for_sltu="0110011"
-                    funct7_for_sltu="0000000"
-                    funct3_for_sltu="011"
-                    # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
-                    Output_file_taken.write(f"{funct7_for_sltu}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sltu}{Register_map_with_their_binary_values[rd]}{opcode_for_sltu}\n")
+        # elif List_after_space_separated[0]=="sltu":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rd=List_after_comma_separated[0]
+        #             rx1=List_after_comma_separated[1]
+        #             rx2=List_after_comma_separated[2]
+        #             if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values or rx2 not in Register_map_with_their_binary_values:
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             opcode_for_sltu="0110011"
+        #             funct7_for_sltu="0000000"
+        #             funct3_for_sltu="011"
+        #             # print(f"{funct7_for_add}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_add}{Register_map_with_their_binary_values[rd]}{opcode_for_add}\n")
+        #             Output_file_taken.write(f"{funct7_for_sltu}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sltu}{Register_map_with_their_binary_values[rd]}{opcode_for_sltu}\n")
        
 
 
@@ -376,132 +376,132 @@ with open(output_file,"w") as Output_file_taken:
                     Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_addi}{Register_map_with_their_binary_values[rd]}{opcode_for_addi}\n")
 
 
-        elif List_after_space_separated[0]=="andi":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rd=List_after_comma_separated[0]
-                    rx1=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    opcode_for_andi="0010011"
-                    funct3_for_andi="111"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
-                    Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_andi}{Register_map_with_their_binary_values[rd]}{opcode_for_andi}\n")
+        # elif List_after_space_separated[0]=="andi":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rd=List_after_comma_separated[0]
+        #             rx1=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             opcode_for_andi="0010011"
+        #             funct3_for_andi="111"  
+        #             imm_in_binary=str(converter_to_12bit_binary(immi))
+        #             Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_andi}{Register_map_with_their_binary_values[rd]}{opcode_for_andi}\n")
              
 
-        elif List_after_space_separated[0]=="ori":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rd=List_after_comma_separated[0]
-                    rx1=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    opcode_for_ori="0010011"
-                    funct3_for_ori="110"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
-                    Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_ori}{Register_map_with_their_binary_values[rd]}{opcode_for_ori}\n")
+        # elif List_after_space_separated[0]=="ori":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rd=List_after_comma_separated[0]
+        #             rx1=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             opcode_for_ori="0010011"
+        #             funct3_for_ori="110"  
+        #             imm_in_binary=str(converter_to_12bit_binary(immi))
+        #             Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_ori}{Register_map_with_their_binary_values[rd]}{opcode_for_ori}\n")
 
-        elif List_after_space_separated[0]=="xori":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rd=List_after_comma_separated[0]
-                    rx1=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    opcode_for_xori="0010011"
-                    funct3_for_xori="100"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
-                    Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_xori}{Register_map_with_their_binary_values[rd]}{opcode_for_xori}\n")
+        # elif List_after_space_separated[0]=="xori":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rd=List_after_comma_separated[0]
+        #             rx1=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             opcode_for_xori="0010011"
+        #             funct3_for_xori="100"  
+        #             imm_in_binary=str(converter_to_12bit_binary(immi))
+        #             Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_xori}{Register_map_with_their_binary_values[rd]}{opcode_for_xori}\n")
 
 
-        elif List_after_space_separated[0]=="lb":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rd=List_after_comma_separated[0]
-                    rx1=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    opcode_for_lb="0000011"
-                    funct3_for_lb="000"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
-                    Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_lb}{Register_map_with_their_binary_values[rd]}{opcode_for_lb}\n")
+        # elif List_after_space_separated[0]=="lb":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rd=List_after_comma_separated[0]
+        #             rx1=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             opcode_for_lb="0000011"
+        #             funct3_for_lb="000"  
+        #             imm_in_binary=str(converter_to_12bit_binary(immi))
+        #             Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_lb}{Register_map_with_their_binary_values[rd]}{opcode_for_lb}\n")
 
-        elif List_after_space_separated[0]=="lh":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rd=List_after_comma_separated[0]
-                    rx1=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    opcode_for_lh="0000011"
-                    funct3_for_lh="001"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
-                    Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_lh}{Register_map_with_their_binary_values[rd]}{opcode_for_lh}\n")
+        # elif List_after_space_separated[0]=="lh":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rd=List_after_comma_separated[0]
+        #             rx1=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rd not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             opcode_for_lh="0000011"
+        #             funct3_for_lh="001"  
+        #             imm_in_binary=str(converter_to_12bit_binary(immi))
+        #             Output_file_taken.write(f"{imm_in_binary}{Register_map_with_their_binary_values[rx1]}{funct3_for_lh}{Register_map_with_their_binary_values[rd]}{opcode_for_lh}\n")
 
 
         elif List_after_space_separated[0]=="lw":
@@ -583,30 +583,30 @@ with open(output_file,"w") as Output_file_taken:
                     Output_file_taken.write(f"{imm_in_binary[0:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sw}{imm_in_binary[7:]}{opcode_for_sw}\n")
 
 
-        elif List_after_space_separated[0]=="sh":
-                    if len(List_after_comma_separated)!=2 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rx2=List_after_comma_separated[0]
-                    immi,rx1=List_after_comma_separated[1].split("(")
-                    rx1=rx1.strip(")")
-                    if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    opcode_for_sh="0100011" 
-                    funct3_for_sh="001"  
-                    imm_in_binary=str(converter_to_12bit_binary(immi))
-                    Output_file_taken.write(f"{imm_in_binary[0:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sh}{imm_in_binary[7:]}{opcode_for_sh}\n")
+        # elif List_after_space_separated[0]=="sh":
+        #             if len(List_after_comma_separated)!=2 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rx2=List_after_comma_separated[0]
+        #             immi,rx1=List_after_comma_separated[1].split("(")
+        #             rx1=rx1.strip(")")
+        #             if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             opcode_for_sh="0100011" 
+        #             funct3_for_sh="001"  
+        #             imm_in_binary=str(converter_to_12bit_binary(immi))
+        #             Output_file_taken.write(f"{imm_in_binary[0:7]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_sh}{imm_in_binary[7:]}{opcode_for_sh}\n")
 
 
 
@@ -640,30 +640,30 @@ with open(output_file,"w") as Output_file_taken:
                     funct3_for_beq="000" 
                     Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_beq}{imm_in_binary[8:12]}{imm_in_binary[1]}{opcode_for_beq}\n")
 
-        elif List_after_space_separated[0]=="bge":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rx1=List_after_comma_separated[0]
-                    rx2=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    imm_in_binary=str(converter_to_13bit_binary(immi))
-                    opcode_for_bge="1100011" 
-                    funct3_for_bge="101" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bge}{imm_in_binary[8:12]}{imm_in_binary[1]}{opcode_for_bge}\n")
+        # elif List_after_space_separated[0]=="bge":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rx1=List_after_comma_separated[0]
+        #             rx2=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             imm_in_binary=str(converter_to_13bit_binary(immi))
+        #             opcode_for_bge="1100011" 
+        #             funct3_for_bge="101" 
+        #             Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bge}{imm_in_binary[8:12]}{imm_in_binary[1]}{opcode_for_bge}\n")
               
         elif List_after_space_separated[0]=="bne":
                     if len(List_after_comma_separated)!=3 :
@@ -694,55 +694,55 @@ with open(output_file,"w") as Output_file_taken:
 
 
 
-        elif List_after_space_separated[0]=="blt":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rx1=List_after_comma_separated[0]
-                    rx2=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    imm_in_binary=str(converter_to_13bit_binary(immi))
-                    opcode_for_blt="1100011" 
-                    funct3_for_blt="100" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_blt}{imm_in_binary[8:12]}{imm_in_binary[1]}{opcode_for_blt}\n")
+        # elif List_after_space_separated[0]=="blt":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rx1=List_after_comma_separated[0]
+        #             rx2=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             imm_in_binary=str(converter_to_13bit_binary(immi))
+        #             opcode_for_blt="1100011" 
+        #             funct3_for_blt="100" 
+        #             Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_blt}{imm_in_binary[8:12]}{imm_in_binary[1]}{opcode_for_blt}\n")
 
-        elif List_after_space_separated[0]=="bltu":
-                    if len(List_after_comma_separated)!=3 :
-                        print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
-                        break
-                    rx1=List_after_comma_separated[0]
-                    rx2=List_after_comma_separated[1]
-                    immi=(List_after_comma_separated[2])
-                    if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
-                        print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
-                        break
-                    if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
-                          immi=int(immi)
-                          pass
-                    else:
-                        if immi in dictionary_fro_line_number_of_label:
-                              offset=dictionary_fro_line_number_of_label[immi]
-                              immi=(offset-i)*4
-                        else :
-                              print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
-                              break
-                    imm_in_binary=str(converter_to_13bit_binary(immi))
-                    opcode_for_bltu="1100011" 
-                    funct3_for_bltu="110" 
-                    Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bltu}{imm_in_binary[8:12]}{imm_in_binary[1]}{opcode_for_bltu}\n")
+        # elif List_after_space_separated[0]=="bltu":
+        #             if len(List_after_comma_separated)!=3 :
+        #                 print(f"Error in line number {i+1} : {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             rx1=List_after_comma_separated[0]
+        #             rx2=List_after_comma_separated[1]
+        #             immi=(List_after_comma_separated[2])
+        #             if rx2 not in Register_map_with_their_binary_values or rx1 not in Register_map_with_their_binary_values :
+        #                 print(f"ERROR : INVALID INSTRUCTION in line number {i+1} --> {List_of_lines_of_input_file[i]}")
+        #                 break
+        #             if immi.isdigit() or (immi[0]=="-" and immi[1:].isdigit()) :
+        #                   immi=int(immi)
+        #                   pass
+        #             else:
+        #                 if immi in dictionary_fro_line_number_of_label:
+        #                       offset=dictionary_fro_line_number_of_label[immi]
+        #                       immi=(offset-i)*4
+        #                 else :
+        #                       print(f"There is labelling error in the line number {i+1} --> {List_of_lines_of_input_file[i]}The label '{immi}' is not defined anywhere in the instruction set")
+        #                       break
+        #             imm_in_binary=str(converter_to_13bit_binary(immi))
+        #             opcode_for_bltu="1100011" 
+        #             funct3_for_bltu="110" 
+        #             Output_file_taken.write(f"{imm_in_binary[0]}{imm_in_binary[2:8]}{Register_map_with_their_binary_values[rx2]}{Register_map_with_their_binary_values[rx1]}{funct3_for_bltu}{imm_in_binary[8:12]}{imm_in_binary[1]}{opcode_for_bltu}\n")
 
 # FOR J -TYPE INSTRUCTIONS 
         elif List_after_space_separated[0]=="jal":
