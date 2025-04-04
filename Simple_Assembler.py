@@ -22,9 +22,9 @@ def converter_to_21bit_binary(n):
     else:
         return format(n, '021b')
 
-if len(sys.argv) !=3:
-    print("The Format of the input should be : python <File_name>.py <input.txt> <output.bin> ")
-    sys.exit( 1 )  # To exit out of the this sys
+# if len(sys.argv) !=3:
+#     print("The Format of the input should be : python <File_name>.py <input.txt> <output.bin> ")
+#     sys.exit( 1 )  # To exit out of the this sys
 
 input_file=sys.argv[1]   # loading name of input txt file in input_file
 output_file=sys.argv[2]  # loading name of the ouput txt file in outut_file
